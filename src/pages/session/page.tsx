@@ -153,7 +153,7 @@ export function SessionPage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
       <div className="space-y-6">
-        <Card className="border-white/60 bg-[linear-gradient(135deg,rgba(255,255,255,0.94),rgba(224,242,254,0.8))]">
+        <Card className="border-border/60 bg-card">
           <SessionHero
             sessionId={sessionId}
             topicId={session.topicId}

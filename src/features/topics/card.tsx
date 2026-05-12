@@ -1,9 +1,7 @@
 import { ArrowRight, Clock3, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { withAlpha } from "@/shared/lib/color";
 import type { Topic } from "@/shared/types/domain";
 
@@ -25,49 +23,77 @@ export function TopicCard({
   const color = topic.color ?? "#64748B";
 
   return (
-    <Card className="overflow-hidden border-border/70 bg-background/95 shadow-md">
+    <div className="group relative overflow-hidden rounded-xl border border-border/60 bg-card p-5 transition-all duration-200 hover:border-border hover:shadow-card">
+      {/* Top accent line */}
       <div
-        className="h-28"
+        className="absolute inset-x-0 top-0 h-px rounded-t-xl"
         style={{
-          background: `linear-gradient(135deg, ${color}, ${withAlpha(color, 0.72)})`,
+          background: `linear-gradient(90deg, ${color}, ${withAlpha(color, 0.35)}, transparent)`,
         }}
       />
-      <CardContent className="space-y-4 pt-6">
-        <div className="flex items-start justify-between gap-4">
+
+      <div className="space-y-5">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div
+              className="h-3 w-3 shrink-0 rounded-full animate-node-pulse"
+              style={{ backgroundColor: color }}
+            />
+            <h3 className="text-base font-semibold tracking-tight text-foreground">
+              {topic.name}
+            </h3>
+          </div>
+          {onDelete && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 text-muted-foreground/50 hover:text-destructive"
+              onClick={() => onDelete(topic)}
+              disabled={isDeleting}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </Button>
+          )}
+        </div>
+
+        {/* Stats */}
+        <div className="flex items-end justify-between gap-3">
           <div>
-            <h3 className="text-xl font-bold">{topic.name}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {sessionsCount} consultations
+            <p className="font-mono text-3xl font-bold text-foreground">
+              {sessionsCount}
+            </p>
+            <p className="font-mono text-xs text-muted-foreground">
+              consultations
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary">{sessionsCount}x</Badge>
-            {onDelete && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                onClick={() => onDelete(topic)}
-                disabled={isDeleting}
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            )}
+          <div className="flex items-center gap-1.5 pb-0.5 text-xs text-muted-foreground/70">
+            <Clock3 className="h-3 w-3 shrink-0" />
+            <span className="font-mono text-[11px]">{lastActivity}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Clock3 className="h-4 w-4" />
-          Last activity: {lastActivity}
-        </div>
+        {/* Color bar */}
+        <div
+          className="h-1 w-full rounded-full opacity-40"
+          style={{
+            background: `linear-gradient(90deg, ${color}, ${withAlpha(color, 0.3)})`,
+          }}
+        />
 
-        <Button asChild className="w-full">
+        {/* Action */}
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="w-full border-border/60 bg-muted/20 hover:bg-muted/50 hover:text-foreground"
+        >
           <Link to={`/topics/${topic.id}`}>
-            Open domain
-            <ArrowRight className="h-4 w-4" />
+            Open Domain
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

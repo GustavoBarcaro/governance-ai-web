@@ -20,7 +20,7 @@ export function SessionLibraryCard({
   onDelete,
 }: SessionLibraryCardProps) {
   return (
-    <SurfaceCard className="border-white/60 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(254,243,199,0.7))]">
+    <SurfaceCard>
       <CardHeader>
         <CardTitle>Consultation history</CardTitle>
         <CardDescription>

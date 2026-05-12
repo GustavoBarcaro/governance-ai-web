@@ -118,7 +118,7 @@ export function TopicsPage() {
       <Card
         className="overflow-hidden border-border/70 shadow-md"
         style={{
-          background: `linear-gradient(135deg, ${withAlpha(normalizedColor, 0.18)}, rgba(255,255,255,0.92))`,
+          background: `linear-gradient(135deg, ${withAlpha(normalizedColor, 0.14)}, rgba(11, 21, 38, 0.96))`,
         }}
       >
         <CardContent className="flex flex-col gap-4 pt-6 lg:flex-row lg:items-end lg:justify-between">

@@ -112,8 +112,8 @@ export function LearningPathPanel({
               className={cn(
                 "rounded-xl border p-4 transition-colors",
                 step.completed
-                  ? "border-emerald-200 bg-emerald-50"
-                  : "border-border bg-card",
+                  ? "border-emerald-800/40 bg-emerald-950/30"
+                  : "border-border/60 bg-card/60",
               )}
             >
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -122,12 +122,12 @@ export function LearningPathPanel({
                     className={cn(
                       "mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background shadow-sm",
                       step.completed
-                        ? "border-emerald-200 text-emerald-700"
-                        : "border-border/80 text-muted-foreground",
+                        ? "border-emerald-800/40 text-emerald-400"
+                        : "border-border/60 text-muted-foreground",
                     )}
                   >
                     {step.completed ? (
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100">
+                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-900/50">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                       </div>
                     ) : (
@@ -142,7 +142,7 @@ export function LearningPathPanel({
                       {step.completed && (
                         <Badge
                           variant="secondary"
-                          className="rounded-md border border-emerald-200 bg-emerald-100 px-2.5 py-0.5 text-emerald-700 hover:bg-emerald-100"
+                          className="rounded-md border border-emerald-800/40 bg-emerald-950/40 px-2.5 py-0.5 text-emerald-400 hover:bg-emerald-950/50"
                         >
                           Assessment passed
                         </Badge>
@@ -159,15 +159,15 @@ export function LearningPathPanel({
 
                 <div className="flex w-full flex-col gap-2 sm:flex-row lg:w-auto lg:min-w-[190px] lg:flex-col lg:items-end">
                   {step.completed ? (
-                    <div className="flex w-full items-center gap-3 rounded-xl border border-emerald-200 bg-background px-3 py-2 shadow-sm sm:w-auto">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100">
+                    <div className="flex w-full items-center gap-3 rounded-xl border border-emerald-800/40 bg-muted/30 px-3 py-2 shadow-sm sm:w-auto">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-900/50">
                         <CheckCircle2 className="h-4 w-4 text-emerald-700" />
                       </div>
                       <div className="text-left lg:text-right">
-                        <p className="text-sm font-semibold text-emerald-800">
+                        <p className="text-sm font-semibold text-emerald-300">
                           Completed
                         </p>
-                        <p className="text-xs text-emerald-700/80">
+                        <p className="text-xs text-emerald-400/70">
                           Passed compliance assessment
                         </p>
                       </div>

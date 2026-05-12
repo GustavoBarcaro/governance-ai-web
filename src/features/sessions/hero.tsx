@@ -42,7 +42,7 @@ export function SessionHero({
           </CardDescription>
         }
         aside={
-          <div className="w-full rounded-[1.5rem] bg-white p-4 shadow-sm sm:max-w-sm">
+          <div className="w-full rounded-xl border border-border/60 bg-muted/30 p-4 sm:max-w-sm">
             <p className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
               <Target className="h-4 w-4 text-accent" />
               Governance scope

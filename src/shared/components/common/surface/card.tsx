@@ -9,7 +9,7 @@ const SurfaceCard = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <Card
     ref={ref}
-    className={cn("border-border/70 bg-background/95 shadow-md", className)}
+    className={cn("border-border/60 bg-card shadow-card", className)}
     {...props}
   />
 ));

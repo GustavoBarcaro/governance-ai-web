@@ -30,10 +30,14 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["'Manrope'", "system-ui", "sans-serif"],
+        sans: ["'Outfit'", "system-ui", "sans-serif"],
+        serif: ["'Cormorant Garamond'", "Georgia", "serif"],
+        mono: ["'Space Mono'", "monospace"],
       },
       boxShadow: {
-        soft: "0 16px 40px rgba(15, 23, 42, 0.08)",
+        soft: "0 16px 48px rgba(0, 0, 0, 0.48)",
+        glow: "0 0 24px rgba(18, 216, 195, 0.18), 0 0 48px rgba(18, 216, 195, 0.08)",
+        card: "0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.32)",
       },
     },
   },

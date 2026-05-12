@@ -23,7 +23,7 @@ export function SessionChatCard({
   onSend,
 }: SessionChatCardProps) {
   return (
-    <Card className="border-white/60">
+    <Card className="border-border/60 bg-card">
       <CardContent className="space-y-4 pt-6">
         <MessageList messages={messages} isLoading={isLoading} />
         <MessageComposer

@@ -15,23 +15,23 @@ export function MessageBubble({ message }: MessageBubbleProps) {
     <div className={cn("flex", isAssistant ? "justify-start" : "justify-end")}>
       <div
         className={cn(
-          "max-w-[80%] rounded-[1.5rem] px-4 py-3 shadow-sm",
+          "max-w-[82%] rounded-2xl px-4 py-3",
           isAssistant
-            ? "bg-white text-foreground"
-            : "bg-primary text-primary-foreground",
+            ? "border border-border/60 bg-card/80 text-foreground shadow-card"
+            : "bg-primary text-primary-foreground shadow-md",
         )}
       >
         {isAssistant ? (
           isPending ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span className="inline-flex gap-1">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-primary/50 [animation-delay:0ms]" />
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-primary/50 [animation-delay:150ms]" />
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-primary/50 [animation-delay:300ms]" />
-                </span>
-                Thinking...
-              </div>
+            <div className="flex items-center gap-2.5 py-1">
+              <span className="inline-flex gap-1.5">
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:0ms]" />
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:150ms]" />
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:300ms]" />
+              </span>
+              <span className="font-mono text-xs text-muted-foreground">
+                Processing...
+              </span>
             </div>
           ) : (
             <MarkdownContent
@@ -48,10 +48,10 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         )}
         <p
           className={cn(
-            "mt-2 text-xs",
+            "mt-2 font-mono text-[10px]",
             isAssistant
-              ? "text-muted-foreground"
-              : "text-primary-foreground/70",
+              ? "text-muted-foreground/60"
+              : "text-primary-foreground/60",
           )}
         >
           {isPending ? "Just now" : formatMessageTime(message.createdAt)}

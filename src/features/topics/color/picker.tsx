@@ -69,7 +69,7 @@ export function TopicColorPicker({ color, onChange }: TopicColorPickerProps) {
             <div
               className="rounded-2xl border p-3"
               style={{
-                background: `linear-gradient(135deg, ${withAlpha(normalizedColor, 0.2)}, rgba(255,255,255,0.9))`,
+                background: `linear-gradient(135deg, ${withAlpha(normalizedColor, 0.18)}, rgba(11, 21, 38, 0.96))`,
               }}
             >
               <HexColorPicker

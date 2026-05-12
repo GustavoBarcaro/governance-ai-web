@@ -1,83 +1,59 @@
-import { Sparkles, Target, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Trash2, Wrench } from "lucide-react";
 
+import { BackLink } from "@/shared/components/common/back-link";
 import { Button } from "@/components/ui/button";
-import { CardDescription, CardHeader } from "@/components/ui/card";
-import { PageHeader } from "@/shared/components/common/page/header";
-import type { QuizDifficulty } from "@/shared/types/domain";
 
 interface SessionHeroProps {
-  sessionId: string;
   topicId: string;
   topicName: string;
   title: string;
-  quizDifficulty: QuizDifficulty;
-  questions: number;
-  onOpenStudyTools: () => void;
+  onOpenStudyTools?: () => void;
   onDelete: () => void;
 }
 
 export function SessionHero({
-  sessionId,
   topicId,
   topicName,
   title,
-  quizDifficulty,
-  questions,
   onOpenStudyTools,
   onDelete,
 }: SessionHeroProps) {
   return (
-    <CardHeader className="space-y-4">
-      <PageHeader
-        backLink={{
-          to: `/topics/${topicId}`,
-          label: "Back to domain",
-        }}
-        title={title}
-        titleClassName="text-3xl sm:text-4xl"
-        description={
-          <CardDescription className="max-w-2xl text-base">
-            Ask questions, review compliance answers, and use analysis tools without losing the context of this consultation.
-          </CardDescription>
-        }
-        aside={
-          <div className="w-full rounded-xl border border-border/60 bg-muted/30 p-4 sm:max-w-sm">
-            <p className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
-              <Target className="h-4 w-4 text-accent" />
-              Governance scope
-            </p>
-            <p className="mt-2 text-sm leading-6">
-              Focused on{" "}
-              <span className="font-semibold">{topicName}</span> — keep your questions, regulatory answers, and analysis tools in one place.
-            </p>
-          </div>
-        }
-        actions={
-          <>
-            <Button variant="secondary" onClick={onOpenStudyTools}>
-              <Sparkles className="h-4 w-4" />
-              Summarize
-            </Button>
-            <Button variant="secondary" onClick={onOpenStudyTools}>
-              <Sparkles className="h-4 w-4" />
-              Clarify
-            </Button>
-            <Button asChild>
-              <Link
-                to={`/quizzes/${sessionId}?difficulty=${quizDifficulty}&questions=${questions}`}
-              >
-                <Sparkles className="h-4 w-4" />
-                Assessment
-              </Link>
-            </Button>
-            <Button variant="outline" onClick={onDelete}>
-              <Trash2 className="h-4 w-4" />
-              Delete consultation
-            </Button>
-          </>
-        }
-      />
-    </CardHeader>
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0 space-y-2">
+        <BackLink to={`/topics/${topicId}`} label="Back to domain" />
+        <div className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-primary animate-node-pulse" />
+          <span className="font-mono text-xs text-muted-foreground/70">
+            {topicName}
+          </span>
+        </div>
+        <h1 className="line-clamp-2 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          {title}
+        </h1>
+      </div>
+
+      <div className="flex shrink-0 items-center gap-2 pt-1">
+        {onOpenStudyTools && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="xl:hidden"
+            onClick={onOpenStudyTools}
+          >
+            <Wrench className="h-3.5 w-3.5" />
+            Tools
+          </Button>
+        )}
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 border-border/60 text-muted-foreground/60 hover:text-destructive"
+          onClick={onDelete}
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </Button>
+      </div>
+    </div>
   );
 }

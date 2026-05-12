@@ -121,29 +121,32 @@ export function AuthForm({ mode }: AuthFormProps) {
   };
 
   return (
-    <SurfaceCard className="w-full max-w-md shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-3xl font-extrabold">
-          {isSignup ? "Create account" : "Welcome back"}
+    <SurfaceCard className="w-full max-w-md">
+      <CardHeader className="pb-5">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/50">
+          {isSignup ? "Create account" : "Sign in"}
+        </p>
+        <CardTitle className="font-serif text-3xl font-semibold tracking-tight">
+          {isSignup ? "Get started." : "Welcome back."}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="mt-1">
           {isSignup
-            ? "Start organizing your governance domains and consulting regulations with AI support."
-            : "Sign in to continue your governance consultations and pick up where you left off."}
+            ? "Start organizing your governance domains and consulting regulations with AI."
+            : "Continue your governance consultations and pick up where you left off."}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {isSignup && (
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="name" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Name</Label>
               <Input placeholder="Your name" {...register("name")} />
               <InlineError message={errors.name?.message} />
             </div>
           )}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Email</Label>
             <Input
               id="email"
               placeholder="user@company.com"
@@ -152,8 +155,8 @@ export function AuthForm({ mode }: AuthFormProps) {
             <InlineError message={errors.email?.message} />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+          <div className="space-y-1.5">
+            <Label htmlFor="password" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Password</Label>
             <Input
               id="password"
               type="password"
@@ -161,8 +164,8 @@ export function AuthForm({ mode }: AuthFormProps) {
               {...register("password")}
             />
             <InlineError message={errors.password?.message} />
-            {isSignup ? (
-              <div className="space-y-1 pt-1 text-sm text-muted-foreground">
+            {isSignup && (
+              <div className="space-y-1 pt-1">
                 {signupPasswordRules.map((rule) => {
                   const isValid = rule.test(password);
                   const Icon = isValid ? Check : X;
@@ -170,26 +173,36 @@ export function AuthForm({ mode }: AuthFormProps) {
                   return (
                     <div
                       key={rule.label}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 text-xs"
                     >
                       <Icon
                         className={
                           isValid
-                            ? "h-4 w-4 text-emerald-600"
-                            : "h-4 w-4 text-muted-foreground"
+                            ? "h-3.5 w-3.5 text-emerald-400"
+                            : "h-3.5 w-3.5 text-muted-foreground/40"
                         }
                       />
-                      <span>{rule.label}</span>
+                      <span
+                        className={
+                          isValid
+                            ? "text-foreground/70"
+                            : "text-muted-foreground/50"
+                        }
+                      >
+                        {rule.label}
+                      </span>
                     </div>
                   );
                 })}
               </div>
-            ) : null}
+            )}
           </div>
 
-          {isSignup ? (
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm password</Label>
+          {isSignup && (
+            <div className="space-y-1.5">
+              <Label htmlFor="confirmPassword" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">
+                Confirm password
+              </Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -204,7 +217,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 }
               />
             </div>
-          ) : null}
+          )}
 
           <Button
             className="w-full"
@@ -218,12 +231,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           <InlineError message={authMutation.error?.message} />
         </form>
 
-        <Separator className="my-6" />
+        <Separator className="my-6 opacity-40" />
 
-        <p className="mt-6 text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground/60">
           {isSignup ? "Already have an account?" : "Need an account?"}{" "}
           <Link
-            className="font-semibold text-primary"
+            className="font-semibold text-primary hover:text-primary/80"
             to={isSignup ? "/login" : "/signup"}
           >
             {isSignup ? "Sign in" : "Create one"}

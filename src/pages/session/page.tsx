@@ -8,7 +8,6 @@ import { SessionChatCard } from "@/features/messages/session-chat";
 import { SessionHero } from "@/features/sessions/hero";
 import { StudyToolsPanel } from "@/features/study-tools/panel";
 import { PageLoading } from "@/shared/components/common/page/loading";
-import { Card } from "@/components/ui/card";
 import { api } from "@/shared/lib/api";
 import type {
   CreateMessageResponse,
@@ -21,8 +20,7 @@ export function SessionPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [quizDifficulty, setQuizDifficulty] =
-    useState<QuizDifficulty>("medium");
+  const [quizDifficulty, setQuizDifficulty] = useState<QuizDifficulty>("medium");
   const [questions, setQuestions] = useState(3);
 
   const {
@@ -96,15 +94,12 @@ export function SessionPage() {
             if (message.id === context?.optimisticUserMessageId) {
               return data.userMessage;
             }
-
             if (message.id === context?.optimisticAssistantMessageId) {
               return data.assistantMessage;
             }
-
             return message;
           }),
       );
-
       await queryClient.invalidateQueries({ queryKey: ["session", sessionId] });
     },
     onSettled: async () => {
@@ -144,32 +139,29 @@ export function SessionPage() {
     .find((message) => message.role === "user")
     ?.content?.trim();
   const sessionPromptContext = latestUserMessage || session.title;
-  const shortenedSessionPromptContext =
+  const shortenedContext =
     sessionPromptContext.length > 60
       ? `${sessionPromptContext.slice(0, 57).trim()}...`
       : sessionPromptContext;
-  const composerPlaceholder = `Ask a compliance question about ${session.topic.name} or try "Explain ${shortenedSessionPromptContext} in plain terms"`;
+  const composerPlaceholder = `Ask a compliance question about ${session.topic.name} or try "Explain ${shortenedContext} in plain terms"`;
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-      <div className="space-y-6">
-        <Card className="border-border/60 bg-card">
-          <SessionHero
-            sessionId={sessionId}
-            topicId={session.topicId}
-            topicName={session.topic.name}
-            title={session.title}
-            quizDifficulty={quizDifficulty}
-            questions={questions}
-            onOpenStudyTools={() =>
-              document
-                .getElementById("study-tools-panel")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            onDelete={() => setIsDeleteOpen(true)}
-          />
-        </Card>
+    <div className="space-y-5">
+      {/* Compact session header */}
+      <SessionHero
+        topicId={session.topicId}
+        topicName={session.topic.name}
+        title={session.title}
+        onOpenStudyTools={() =>
+          document
+            .getElementById("study-tools-panel")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+        onDelete={() => setIsDeleteOpen(true)}
+      />
 
+      {/* Main grid: chat + study tools */}
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
         <SessionChatCard
           messages={messages}
           isLoading={isMessagesPending}
@@ -178,17 +170,15 @@ export function SessionPage() {
           placeholder={composerPlaceholder}
           onSend={(value) => createMessageMutation.mutate(value)}
         />
-      </div>
 
-      <StudyToolsPanel
-        sessionId={sessionId}
-        quizDifficulty={quizDifficulty}
-        questions={questions}
-        onQuizDifficultyChange={setQuizDifficulty}
-        onQuestionsChange={(nextQuestions) =>
-          setQuestions(Math.max(1, Math.min(10, nextQuestions)))
-        }
-      />
+        <StudyToolsPanel
+          sessionId={sessionId}
+          quizDifficulty={quizDifficulty}
+          questions={questions}
+          onQuizDifficultyChange={setQuizDifficulty}
+          onQuestionsChange={(n) => setQuestions(Math.max(1, Math.min(10, n)))}
+        />
+      </div>
 
       <DeleteConfirmDialog
         open={isDeleteOpen}

@@ -1,12 +1,7 @@
 import { PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { InlineError } from "@/shared/components/common/inline-error";
 import { SurfaceCard } from "@/shared/components/common/surface/card";
@@ -27,21 +22,27 @@ export function CreateSessionCard({
   onCreate,
 }: CreateSessionCardProps) {
   return (
-    <SurfaceCard className="w-full max-w-md shadow-sm">
-      <CardHeader className="space-y-2">
-        <CardTitle className="text-lg">New consultation</CardTitle>
-        <CardDescription>
-          Open a consultation for this domain and ask questions about regulations and compliance requirements.
-        </CardDescription>
+    <SurfaceCard className="w-full max-w-md">
+      <CardHeader className="pb-3">
+        <div className="flex items-center gap-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-primary animate-node-pulse" />
+          <CardTitle className="text-base font-semibold">
+            New consultation
+          </CardTitle>
+        </div>
       </CardHeader>
       <CardContent className="space-y-3">
         <Input
           value={title}
-          onChange={(event) => onTitleChange(event.target.value)}
+          onChange={(e) => onTitleChange(e.target.value)}
           placeholder="What do you want to consult about?"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && title.trim() && !isPending) {
+              onCreate();
+            }
+          }}
         />
         <Button
-          size="lg"
           className="w-full"
           disabled={!title.trim() || isPending}
           onClick={onCreate}

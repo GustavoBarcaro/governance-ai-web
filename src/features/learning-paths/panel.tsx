@@ -43,13 +43,13 @@ export function LearningPathPanel({
     return (
       <SurfaceCard>
         <CardHeader className="space-y-4">
-          <Skeleton className="h-10 w-80" />
+          <Skeleton className="h-9 w-72" />
           <Skeleton className="h-4 w-full max-w-2xl" />
-          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-2.5 w-full" />
         </CardHeader>
-        <CardContent className="space-y-3">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Skeleton key={index} className="h-16 w-full rounded-xl" />
+        <CardContent className="space-y-2.5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-16 w-full rounded-lg" />
           ))}
         </CardContent>
       </SurfaceCard>
@@ -60,18 +60,18 @@ export function LearningPathPanel({
     return (
       <SurfaceCard>
         <CardHeader>
-          <CardTitle>Compliance roadmap</CardTitle>
+          <CardTitle className="font-serif text-xl font-semibold">
+            Compliance roadmap
+          </CardTitle>
           <CardDescription>
-            No compliance roadmap is available for this domain yet.
+            No compliance roadmap has been generated for this domain yet.
           </CardDescription>
         </CardHeader>
       </SurfaceCard>
     );
   }
 
-  const completedSteps = learningPath.steps.filter(
-    (step) => step.completed,
-  ).length;
+  const completedSteps = learningPath.steps.filter((s) => s.completed).length;
   const totalSteps = learningPath.steps.length;
   const progress =
     totalSteps === 0 ? 0 : Math.round((completedSteps / totalSteps) * 100);
@@ -79,9 +79,12 @@ export function LearningPathPanel({
   return (
     <SurfaceCard>
       <CardHeader className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-1">
-            <CardTitle className="text-3xl font-extrabold">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground/50">
+              Compliance Roadmap
+            </p>
+            <CardTitle className="font-serif text-2xl font-semibold">
               {topic.name}
             </CardTitle>
             <CardDescription>{learningPath.description}</CardDescription>
@@ -92,17 +95,17 @@ export function LearningPathPanel({
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>Compliance progress</span>
+          <div className="flex items-center justify-between font-mono text-xs text-muted-foreground/60">
+            <span>Progress</span>
             <span>
-              {completedSteps}/{totalSteps} phases completed
+              {completedSteps}/{totalSteps} phases
             </span>
           </div>
-          <Progress value={progress} />
+          <Progress value={progress} className="h-1.5" />
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-2.5">
         {learningPath.steps.map((step, index) => {
           const existingSessionId = getExistingSessionId?.(step) ?? null;
 
@@ -110,98 +113,99 @@ export function LearningPathPanel({
             <div
               key={step.id}
               className={cn(
-                "rounded-xl border p-4 transition-colors",
+                "rounded-lg border p-4 transition-colors",
                 step.completed
                   ? "border-emerald-800/40 bg-emerald-950/30"
-                  : "border-border/60 bg-card/60",
+                  : "border-border/60 bg-card/40",
               )}
             >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                {/* Step info */}
                 <div className="flex min-w-0 items-start gap-3">
+                  {/* Phase indicator */}
                   <div
                     className={cn(
-                      "mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background shadow-sm",
+                      "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border font-mono text-xs font-bold",
                       step.completed
-                        ? "border-emerald-800/40 text-emerald-400"
-                        : "border-border/60 text-muted-foreground",
+                        ? "border-emerald-700/50 bg-emerald-900/50 text-emerald-400"
+                        : "border-border/60 bg-muted/40 text-muted-foreground",
                     )}
                   >
                     {step.completed ? (
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-900/50">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
-                      </div>
+                      <CheckCircle2 className="h-3.5 w-3.5" />
                     ) : (
-                      <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/55" />
+                      index + 1
                     )}
                   </div>
-                  <div className="min-w-0 space-y-1.5">
+
+                  <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
                         Phase {index + 1}
                       </p>
                       {step.completed && (
-                        <Badge
-                          variant="secondary"
-                          className="rounded-md border border-emerald-800/40 bg-emerald-950/40 px-2.5 py-0.5 text-emerald-400 hover:bg-emerald-950/50"
-                        >
-                          Assessment passed
+                        <Badge className="rounded border border-emerald-800/40 bg-emerald-950/40 px-2 py-0 text-[10px] text-emerald-400 hover:bg-emerald-950/50">
+                          Passed
                         </Badge>
                       )}
                     </div>
-                    <p className="text-base font-semibold leading-6">
+                    <p className="text-sm font-semibold leading-5">
                       {step.title}
                     </p>
-                    <p className="text-sm leading-6 text-muted-foreground">
+                    <p className="text-sm leading-5 text-muted-foreground/70">
                       {step.description}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex w-full flex-col gap-2 sm:flex-row lg:w-auto lg:min-w-[190px] lg:flex-col lg:items-end">
+                {/* Actions */}
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[180px] sm:items-end">
                   {step.completed ? (
-                    <div className="flex w-full items-center gap-3 rounded-xl border border-emerald-800/40 bg-muted/30 px-3 py-2 shadow-sm sm:w-auto">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-900/50">
-                        <CheckCircle2 className="h-4 w-4 text-emerald-700" />
+                    <div className="flex items-center gap-2 rounded-lg border border-emerald-800/40 bg-muted/20 px-3 py-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-900/50">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
                       </div>
-                      <div className="text-left lg:text-right">
-                        <p className="text-sm font-semibold text-emerald-300">
+                      <div>
+                        <p className="text-xs font-semibold text-emerald-300">
                           Completed
                         </p>
-                        <p className="text-xs text-emerald-400/70">
-                          Passed compliance assessment
+                        <p className="text-[11px] text-emerald-400/60">
+                          Assessment passed
                         </p>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex w-full flex-col gap-2 sm:flex-row lg:w-auto lg:flex-col">
+                    <div className="flex w-full flex-col gap-2 sm:w-auto">
                       <Button
                         variant="outline"
+                        size="sm"
                         disabled={creatingSessionStepId !== null}
                         onClick={() => onCreateSession(step)}
-                        className="justify-between sm:flex-1 lg:w-full"
+                        className="w-full justify-between sm:w-auto"
                       >
                         {creatingSessionStepId === step.id ? (
                           <>
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            Creating session...
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            Creating...
                           </>
                         ) : (
                           <>
                             {existingSessionId
                               ? "Open consultation"
                               : "Start consultation"}
-                            <ArrowRight className="h-4 w-4" />
+                            <ArrowRight className="h-3.5 w-3.5" />
                           </>
                         )}
                       </Button>
                       <Link
                         to={getTestQuizHref?.(step) ?? "#"}
                         className={cn(
-                          buttonVariants({ variant: "default" }),
-                          "justify-between sm:flex-1 lg:w-full",
+                          buttonVariants({ variant: "default", size: "sm" }),
+                          "w-full justify-between sm:w-auto",
                         )}
                       >
                         Take assessment
+                        <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
                   )}
@@ -210,9 +214,11 @@ export function LearningPathPanel({
             </div>
           );
         })}
-        <Separator />
-        <p className="text-sm text-muted-foreground">
-          Complete each phase by passing the compliance assessment with at least 70%.
+
+        <Separator className="opacity-30" />
+        <p className="text-xs text-muted-foreground/50">
+          Complete each phase by passing the compliance assessment with at least
+          70%.
         </p>
       </CardContent>
     </SurfaceCard>

@@ -1,9 +1,4 @@
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SessionList } from "@/features/sessions/list";
 import { SurfaceCard } from "@/shared/components/common/surface/card";
 import type { StudySession } from "@/shared/types/domain";
@@ -21,11 +16,15 @@ export function SessionLibraryCard({
 }: SessionLibraryCardProps) {
   return (
     <SurfaceCard>
-      <CardHeader>
-        <CardTitle>Consultation history</CardTitle>
-        <CardDescription>
-          Open any consultation to continue, review past questions, or delete what you no longer need.
-        </CardDescription>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between gap-3">
+          <CardTitle className="font-serif text-xl font-semibold">
+            Consultation history
+          </CardTitle>
+          <span className="font-mono text-xs text-muted-foreground/60">
+            {sessions.length} session{sessions.length !== 1 ? "s" : ""}
+          </span>
+        </div>
       </CardHeader>
       <CardContent>
         {sessions.length > 0 ? (
@@ -35,9 +34,14 @@ export function SessionLibraryCard({
             deletingSessionId={deletingSessionId}
           />
         ) : (
-          <p className="text-sm text-muted-foreground">
-            No consultations in this domain yet. Start one above to get started.
-          </p>
+          <div className="py-6 text-center">
+            <p className="font-mono text-xs text-muted-foreground/50">
+              No consultations yet
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground/40">
+              Start a consultation above to begin.
+            </p>
+          </div>
         )}
       </CardContent>
     </SurfaceCard>

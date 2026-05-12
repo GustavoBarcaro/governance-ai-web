@@ -41,7 +41,7 @@ export function PageHeader({
           ) : null}
           <h1
             className={cn(
-              "text-4xl font-extrabold tracking-tight",
+              "font-serif text-4xl font-semibold tracking-tight",
               titleClassName,
             )}
           >

@@ -27,6 +27,7 @@ interface QuizCardProps {
 export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
   const answeredCount = Object.keys(answers).length;
   const correctCount = quiz.reduce((total, question, index) => {
     const key = `${question.question}-${index}`;
@@ -34,62 +35,65 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
   }, 0);
   const percentage =
     quiz.length === 0 ? 0 : Math.round((correctCount / quiz.length) * 100);
+  const passed = percentage >= 70;
 
   return (
     <SurfaceCard>
       <CardHeader className="space-y-3">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
-            <CardTitle className="text-xl font-extrabold sm:text-2xl">
-              Compliance assessment
+            <CardTitle className="font-serif text-2xl font-semibold sm:text-3xl">
+              Compliance Assessment
             </CardTitle>
             <CardDescription>
-              Answer the questions about regulations and requirements, then review the explanations at the end.
+              Answer each question, then check your results to see explanations.
             </CardDescription>
           </div>
           <Badge className="capitalize">{difficulty}</Badge>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Sparkles className="h-4 w-4" />
+        <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+          <Sparkles className="h-3.5 w-3.5" />
           {answeredCount} of {quiz.length} answered
         </div>
       </CardHeader>
-      <CardContent className="space-y-6">
+
+      <CardContent className="space-y-5">
+        {/* Score banner */}
         {submitted && (
           <div
             className={cn(
               "rounded-xl border p-4",
-              percentage >= 70
-                ? "border-emerald-200 bg-emerald-50"
-                : "border-amber-200 bg-amber-50",
+              passed
+                ? "border-emerald-800/40 bg-emerald-950/30"
+                : "border-amber-700/40 bg-amber-950/30",
             )}
           >
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold text-foreground">
               Score: {correctCount}/{quiz.length} correct
             </p>
             <p
               className={cn(
                 "mt-1 text-sm",
-                percentage >= 70 ? "text-emerald-700" : "text-amber-700",
+                passed ? "text-emerald-400" : "text-amber-400",
               )}
             >
               {percentage}%{" "}
-              {percentage >= 70
-                ? "You passed."
-                : "You need at least 70% to pass."}
+              {passed ? "— Assessment passed." : "— Need 70% to pass."}
             </p>
           </div>
         )}
+
+        {/* Questions */}
         {quiz.map((question, index) =>
           (() => {
             const key = `${question.question}-${index}`;
             const selectedOptionId = answers[key];
             const isAnswered = Boolean(selectedOptionId);
             const selectedOption = question.options.find(
-              (option) => option.id === selectedOptionId,
+              (o) => o.id === selectedOptionId,
             );
             const correctOption = question.options.find(
-              (option) => option.id === question.correctOptionId,
+              (o) => o.id === question.correctOptionId,
             );
             const answeredCorrectly =
               submitted && selectedOptionId === question.correctOptionId;
@@ -103,30 +107,33 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
                 key={key}
                 className={cn(
                   "space-y-4 rounded-xl border bg-card p-4 transition-all sm:p-5",
-                  isAnswered &&
-                    !submitted &&
-                    "border-primary bg-primary/5 ring-1 ring-primary/30 shadow-md",
-                  submitted && "border-border",
+                  isAnswered && !submitted
+                    ? "border-primary/40 bg-primary/5 ring-1 ring-primary/20"
+                    : "border-border/60",
                 )}
               >
+                {/* Question header */}
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="space-y-2">
-                    <p className="text-sm font-semibold text-muted-foreground">
+                  <div className="space-y-1.5">
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
                       Question {index + 1}
                     </p>
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-base font-semibold leading-6">
                       {question.question}
                     </h3>
                   </div>
                   <Badge
                     variant={isAnswered ? "default" : "outline"}
-                    className="self-start"
+                    className="self-start shrink-0"
                   >
                     {isAnswered ? "Selected" : "Pending"}
                   </Badge>
                 </div>
-                <Separator />
-                <div className="grid gap-3">
+
+                <Separator className="opacity-40" />
+
+                {/* Options */}
+                <div className="grid gap-2.5">
                   {question.options.map((option) => {
                     const isSelected = selectedOptionId === option.id;
                     const isCorrect =
@@ -141,33 +148,32 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
                         key={option.id}
                         type="button"
                         className={cn(
-                          "flex flex-col gap-3 rounded-xl border bg-background px-4 py-3 text-left text-sm transition-all sm:flex-row sm:items-start sm:justify-between",
-                          "hover:border-primary/40 hover:bg-accent/40",
+                          "flex items-start justify-between gap-3 rounded-lg border bg-muted/20 px-4 py-3 text-left text-sm transition-all",
+                          "hover:border-primary/30 hover:bg-primary/5",
                           isSelected &&
-                            "border-primary bg-primary/10 ring-2 ring-primary/30 shadow-sm",
+                            !submitted &&
+                            "border-primary/40 bg-primary/8 ring-1 ring-primary/20",
                           isCorrect &&
-                            "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-200",
+                            "border-emerald-700/50 bg-emerald-950/30 ring-1 ring-emerald-700/30",
                           isIncorrect &&
-                            "border-red-400 bg-red-50 ring-2 ring-red-200",
+                            "border-red-700/50 bg-red-950/30 ring-1 ring-red-700/30",
                         )}
                         onClick={() =>
-                          setAnswers((current) => ({
-                            ...current,
-                            [key]: option.id,
-                          }))
+                          !submitted &&
+                          setAnswers((cur) => ({ ...cur, [key]: option.id }))
                         }
                       >
                         <div className="flex min-w-0 items-start gap-3">
                           <div
                             className={cn(
-                              "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold",
-                              isSelected
+                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border font-mono text-xs font-bold",
+                              isSelected && !submitted
                                 ? "border-primary bg-primary text-primary-foreground"
-                                : "border-border bg-muted text-muted-foreground",
+                                : "border-border/60 bg-muted text-muted-foreground",
                               isCorrect &&
-                                "border-emerald-500 bg-emerald-500 text-white",
+                                "border-emerald-600 bg-emerald-700 text-white",
                               isIncorrect &&
-                                "border-red-400 bg-red-400 text-white",
+                                "border-red-600 bg-red-700 text-white",
                             )}
                           >
                             {option.id}
@@ -176,36 +182,39 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
                             {option.text}
                           </span>
                         </div>
-                        <div className="self-end pt-0.5 sm:self-start">
+                        <div className="shrink-0 pt-0.5">
                           {isCorrect ? (
-                            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                           ) : isIncorrect ? (
-                            <CircleOff className="h-5 w-5 text-red-500" />
+                            <CircleOff className="h-4 w-4 text-red-400" />
                           ) : isSelected ? (
-                            <CheckCircle2 className="h-5 w-5 text-primary" />
+                            <CheckCircle2 className="h-4 w-4 text-primary" />
                           ) : (
-                            <Circle className="h-5 w-5 text-muted-foreground" />
+                            <Circle className="h-4 w-4 text-muted-foreground/30" />
                           )}
                         </div>
                       </button>
                     );
                   })}
                 </div>
+
+                {/* Explanation (after submit) */}
                 {submitted && (
                   <div
                     className={cn(
-                      "rounded-xl border p-4",
-                      answeredCorrectly && "border-emerald-200 bg-emerald-50",
-                      answeredIncorrectly && "border-red-200 bg-red-50",
-                      !isAnswered && "border-border bg-muted/40",
+                      "rounded-lg border p-4",
+                      answeredCorrectly &&
+                        "border-emerald-800/40 bg-emerald-950/25",
+                      answeredIncorrectly && "border-red-800/40 bg-red-950/25",
+                      !isAnswered && "border-border/40 bg-muted/20",
                     )}
                   >
                     <p
                       className={cn(
-                        "mb-3 text-xs font-semibold uppercase tracking-wide",
-                        answeredCorrectly && "text-emerald-700",
-                        answeredIncorrectly && "text-red-700",
-                        !isAnswered && "text-muted-foreground",
+                        "mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em]",
+                        answeredCorrectly && "text-emerald-400",
+                        answeredIncorrectly && "text-red-400",
+                        !isAnswered && "text-muted-foreground/60",
                       )}
                     >
                       {answeredCorrectly
@@ -220,26 +229,30 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
                         className={cn(
                           "text-sm leading-6",
                           answeredIncorrectly
-                            ? "text-red-700"
+                            ? "text-red-400/80"
                             : "text-muted-foreground",
                         )}
                       >
-                        <span className="font-semibold">Your answer:</span>{" "}
+                        <span className="font-semibold text-foreground/80">
+                          Your answer:
+                        </span>{" "}
                         {selectedOption.id}. {selectedOption.text}
                       </p>
                     )}
 
-                    {correctOption && (
-                      <p className="mt-2 text-sm leading-6 text-emerald-700">
-                        <span className="font-semibold">Correct option:</span>{" "}
+                    {correctOption && !answeredCorrectly && (
+                      <p className="mt-1.5 text-sm leading-6 text-emerald-400/80">
+                        <span className="font-semibold text-emerald-300">
+                          Correct:
+                        </span>{" "}
                         {correctOption.id}. {correctOption.text}
                       </p>
                     )}
 
-                    <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    <p className="mt-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
                       Explanation
                     </p>
-                    <p className="text-sm leading-6 text-muted-foreground">
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">
                       {question.explanation}
                     </p>
                   </div>
@@ -248,21 +261,19 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
             );
           })(),
         )}
+
+        {/* Submit row */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground/60">
             You can change your answers before checking the results.
           </p>
           <Button
             className="w-full sm:w-auto"
             onClick={() => {
               setSubmitted(true);
-              onSubmitResult?.({
-                correctCount,
-                total: quiz.length,
-                percentage,
-              });
+              onSubmitResult?.({ correctCount, total: quiz.length, percentage });
             }}
-            disabled={answeredCount === 0}
+            disabled={answeredCount === 0 || submitted}
           >
             Check answers
           </Button>

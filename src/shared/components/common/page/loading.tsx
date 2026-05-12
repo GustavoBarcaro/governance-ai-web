@@ -12,15 +12,15 @@ export function PageLoading({
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <Skeleton className="h-5 w-28" />
-        <Skeleton className={`h-11 ${titleWidth}`} />
+        <Skeleton className="h-3.5 w-24" />
+        <Skeleton className={`h-10 ${titleWidth}`} />
         {Array.from({ length: lines }).map((_, index) => (
           <Skeleton key={index} className="h-4 w-full max-w-2xl" />
         ))}
       </div>
-      <div className="grid gap-4">
-        <Skeleton className="h-40 w-full rounded-[1.5rem]" />
-        <Skeleton className="h-56 w-full rounded-[1.5rem]" />
+      <div className="grid gap-3">
+        <Skeleton className="h-40 w-full rounded-xl" />
+        <Skeleton className="h-52 w-full rounded-xl" />
       </div>
     </div>
   );

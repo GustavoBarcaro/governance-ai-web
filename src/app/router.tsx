@@ -53,8 +53,10 @@ function ProtectedRoute() {
 
   if (!bootstrapped) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        Loading workspace...
+      <div className="flex min-h-screen items-center justify-center gap-2">
+        <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:0ms]" />
+        <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:150ms]" />
+        <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:300ms]" />
       </div>
     );
   }

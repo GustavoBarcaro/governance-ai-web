@@ -1,4 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { InlineError } from "@/shared/components/common/inline-error";
 import type { Message } from "@/shared/types/domain";
 
@@ -23,16 +22,10 @@ export function SessionChatCard({
   onSend,
 }: SessionChatCardProps) {
   return (
-    <Card className="border-border/60 bg-card">
-      <CardContent className="space-y-4 pt-6">
-        <MessageList messages={messages} isLoading={isLoading} />
-        <MessageComposer
-          isSending={isSending}
-          onSend={onSend}
-          placeholder={placeholder}
-        />
-        <InlineError message={errorMessage} />
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-3">
+      <MessageList messages={messages} isLoading={isLoading} />
+      <MessageComposer isSending={isSending} onSend={onSend} placeholder={placeholder} />
+      <InlineError message={errorMessage} />
+    </div>
   );
 }

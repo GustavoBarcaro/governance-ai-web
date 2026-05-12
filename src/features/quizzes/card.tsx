@@ -41,10 +41,10 @@ export function QuizCard({ quiz, difficulty, onSubmitResult }: QuizCardProps) {
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <CardTitle className="text-xl font-extrabold sm:text-2xl">
-              Quiz
+              Compliance assessment
             </CardTitle>
             <CardDescription>
-              Answer the questions, then review the explanations at the end.
+              Answer the questions about regulations and requirements, then review the explanations at the end.
             </CardDescription>
           </div>
           <Badge className="capitalize">{difficulty}</Badge>

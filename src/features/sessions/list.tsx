@@ -25,7 +25,7 @@ export function SessionList({
             <div className="space-y-2">
               <h3 className="text-lg font-bold">{session.title}</h3>
               <p className="text-sm text-muted-foreground">
-                Focused study session inside {session.topic.name}.
+                Governance consultation inside {session.topic.name}.
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock3 className="h-4 w-4" />
@@ -36,7 +36,7 @@ export function SessionList({
             <div className="flex w-full flex-col gap-2 sm:flex-row lg:w-auto lg:justify-end">
               <Button asChild className="sm:flex-1 lg:flex-none">
                 <Link to={`/sessions/${session.id}`}>
-                  Open session
+                  Open consultation
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>

@@ -56,19 +56,19 @@ export function LearningPathGeneratorCard({
                 4-6 steps
               </Badge>
             </div>
-            <CardTitle>Create a learning path</CardTitle>
+            <CardTitle>Generate compliance roadmap</CardTitle>
           </div>
           <div className="rounded-lg border bg-background px-3 py-2 text-right">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Uses
             </p>
             <p className="text-sm font-semibold">
-              Topic, sessions, and your goal
+              Domain, consultations, and your goal
             </p>
           </div>
         </div>
         <CardDescription>
-          Generate a step-by-step plan to help you study this topic with a clear next step.
+          Generate a step-by-step compliance roadmap for this governance domain with clear actionable phases.
         </CardDescription>
       </CardHeader>
 
@@ -85,11 +85,11 @@ export function LearningPathGeneratorCard({
             id="learning-path-goal"
             value={goal}
             onChange={(event) => onGoalChange(event.target.value)}
-            placeholder="Example: understand closures well enough to use them confidently in callbacks and hooks"
+            placeholder="Example: achieve full LGPD compliance for our data processing operations within 6 months"
             className="min-h-28 resize-none rounded-2xl border-border/80 bg-background px-4 py-3 text-sm leading-6 shadow-sm focus-visible:ring-1"
           />
           <p className="text-xs text-muted-foreground">
-            Describe what you want to learn or be able to do.
+            Describe your compliance objective or the outcome you need to achieve.
           </p>
         </div>
 
@@ -103,11 +103,11 @@ export function LearningPathGeneratorCard({
       <CardFooter className="flex flex-col items-stretch gap-3 pt-0">
         <Separator className="mb-1" />
         <Button className="w-full" disabled={isPending} onClick={onGenerate}>
-          {isPending ? "Generating learning path..." : "Generate learning path"}
+          {isPending ? "Generating roadmap..." : "Generate compliance roadmap"}
         </Button>
         <InlineError message={errorMessage} />
         <p className="text-sm text-muted-foreground">
-          Pick a session if you want the learning path to use that context too.
+          Pick a consultation if you want the roadmap to use that context too.
         </p>
       </CardFooter>
     </SurfaceCard>

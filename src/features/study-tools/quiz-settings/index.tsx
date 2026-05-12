@@ -19,7 +19,7 @@ export function StudyToolsQuizSettingsCard({
   onQuestionsChange,
 }: StudyToolsQuizSettingsCardProps) {
   return (
-    <StudyToolCard title="Quiz settings">
+    <StudyToolCard title="Assessment settings">
       <div className="space-y-2">
         <Label>Difficulty</Label>
         <div className="grid grid-cols-3 gap-2">
@@ -57,7 +57,7 @@ export function StudyToolsQuizSettingsCard({
         />
       </div>
       <p className="text-sm text-muted-foreground">
-        Your quiz is created from the content of this study session.
+        The compliance assessment is generated from the content of this consultation.
       </p>
     </StudyToolCard>
   );

@@ -10,25 +10,25 @@ const cards = [
   {
     key: "topic",
     icon: BrainCircuit,
-    label: "Topic",
+    label: "Domain",
     getTitle: (props: LearningPathInputSummaryProps) => props.topicName,
-    description: "This anchors the overall subject area for the trail.",
+    description: "This anchors the governance domain for the roadmap.",
   },
   {
     key: "session",
     icon: ListChecks,
-    label: "Session context",
+    label: "Consultation context",
     getTitle: (props: LearningPathInputSummaryProps) =>
-      props.hasSelectedSession ? "Selected session" : "Recent topic context",
-    description: "Use one session if you want the path to stay tightly scoped.",
+      props.hasSelectedSession ? "Selected consultation" : "Recent domain context",
+    description: "Use one consultation if you want the roadmap to stay tightly scoped.",
   },
   {
     key: "goal",
     icon: CheckCircle2,
-    label: "Outcome",
+    label: "Compliance objective",
     getTitle: (props: LearningPathInputSummaryProps) =>
-      props.hasGoal ? "Goal provided" : "Goal optional",
-    description: "A goal makes the steps more practical and less generic.",
+      props.hasGoal ? "Objective provided" : "Objective optional",
+    description: "An objective makes the phases more practical and actionable.",
   },
 ];
 

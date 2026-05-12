@@ -29,16 +29,16 @@ export function CreateSessionCard({
   return (
     <SurfaceCard className="w-full max-w-md shadow-sm">
       <CardHeader className="space-y-2">
-        <CardTitle className="text-lg">Start a new session</CardTitle>
+        <CardTitle className="text-lg">New consultation</CardTitle>
         <CardDescription>
-          Open a study session for this topic and ask questions as you learn.
+          Open a consultation for this domain and ask questions about regulations and compliance requirements.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <Input
           value={title}
           onChange={(event) => onTitleChange(event.target.value)}
-          placeholder="What do you want to study?"
+          placeholder="What do you want to consult about?"
         />
         <Button
           size="lg"
@@ -47,7 +47,7 @@ export function CreateSessionCard({
           onClick={onCreate}
         >
           <PlusCircle className="h-4 w-4" />
-          {isPending ? "Creating..." : "Create session"}
+          {isPending ? "Creating..." : "Start consultation"}
         </Button>
         <InlineError message={errorMessage} />
       </CardContent>

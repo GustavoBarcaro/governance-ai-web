@@ -58,17 +58,17 @@ export function SessionContextSelector({
   return (
     <div className="space-y-3">
       <div className="space-y-1">
-        <Label>Base it on a session</Label>
+        <Label>Base it on a consultation</Label>
         <p className="text-sm text-muted-foreground">
-          Pick one conversation to keep the path tightly focused, or let the
-          backend infer from recent topic context.
+          Pick one consultation to keep the roadmap tightly focused, or let the
+          AI infer from recent domain context.
         </p>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         <SessionContextOption
-          title="Use recent topic context"
-          description="Let the API infer context from the topic and your recent study history."
+          title="Use recent domain context"
+          description="Let the AI infer context from the domain and your recent consultation history."
           badgeLabel="Default"
           badgeVariant="outline"
           isSelected={selectedSessionId === ""}
@@ -79,8 +79,8 @@ export function SessionContextSelector({
           <SessionContextOption
             key={session.id}
             title={session.title}
-            description="Use this session as the main source for the path."
-            badgeLabel="Session"
+            description="Use this consultation as the main source for the roadmap."
+            badgeLabel="Consultation"
             badgeVariant="outline"
             isSelected={selectedSessionId === session.id}
             onClick={() => onChange(session.id)}

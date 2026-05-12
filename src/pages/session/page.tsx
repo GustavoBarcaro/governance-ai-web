@@ -148,7 +148,7 @@ export function SessionPage() {
     sessionPromptContext.length > 60
       ? `${sessionPromptContext.slice(0, 57).trim()}...`
       : sessionPromptContext;
-  const composerPlaceholder = `Ask a question about ${session.topic.name} or try "Explain ${shortenedSessionPromptContext} in simple terms"`;
+  const composerPlaceholder = `Ask a compliance question about ${session.topic.name} or try "Explain ${shortenedSessionPromptContext} in plain terms"`;
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
@@ -193,9 +193,9 @@ export function SessionPage() {
       <DeleteConfirmDialog
         open={isDeleteOpen}
         onOpenChange={setIsDeleteOpen}
-        title="Delete session?"
+        title="Delete consultation?"
         description={`This will remove "${session.title}" and all messages inside it. This action cannot be undone.`}
-        confirmLabel="Delete session"
+        confirmLabel="Delete consultation"
         isPending={deleteSessionMutation.isPending}
         onConfirm={() => deleteSessionMutation.mutate(sessionId)}
       />

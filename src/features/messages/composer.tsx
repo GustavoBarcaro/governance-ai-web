@@ -13,7 +13,7 @@ interface MessageComposerProps {
 export function MessageComposer({
   onSend,
   isSending = false,
-  placeholder = "Ask the AI to explain a concept, compare ideas, or help you practice.",
+  placeholder = "Ask about a regulation, request a compliance clarification, or explore a governance requirement.",
 }: MessageComposerProps) {
   const [value, setValue] = useState("");
 
@@ -27,7 +27,7 @@ export function MessageComposer({
       />
       <div className="mt-4 flex items-center justify-between gap-4">
         <p className="text-sm text-muted-foreground">
-          AI is positioned as a study guide, not just a chat box.
+          AI is your governance advisor, not just a chat box.
         </p>
         <Button
           disabled={isSending}

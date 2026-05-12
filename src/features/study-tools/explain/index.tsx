@@ -29,30 +29,30 @@ export function StudyToolsExplainCard({
   onLevelChange,
 }: StudyToolsExplainCardProps) {
   return (
-    <StudyToolCard title="Explain again">
+    <StudyToolCard title="Clarify regulation">
       <div className="space-y-2">
         <Label htmlFor="focus">Focus area</Label>
         <Input
           id="focus"
           value={focus}
           onChange={(event) => onFocusChange(event.target.value)}
-          placeholder="What would you like explained?"
+          placeholder="Which regulation or requirement needs clarification?"
         />
       </div>
       <div className="space-y-2">
-        <Label>Study level</Label>
+        <Label>Knowledge level</Label>
         <div className="grid grid-cols-2 gap-2">
           <Button
             variant={level === "beginner" ? "default" : "outline"}
             onClick={() => onLevelChange("beginner")}
           >
-            Beginner
+            Foundational
           </Button>
           <Button
             variant={level === "intermediate" ? "default" : "outline"}
             onClick={() => onLevelChange("intermediate")}
           >
-            Intermediate
+            Advanced
           </Button>
         </div>
       </div>
@@ -68,7 +68,7 @@ export function StudyToolsExplainCard({
         ) : explanation ? (
           <MarkdownContent content={explanation} />
         ) : (
-          "Ask for a simpler explanation based on your level and the part you want to focus on."
+          "Get a clearer explanation of a regulation or requirement based on your knowledge level."
         )}
       </div>
       <InlineError message={errorMessage} />

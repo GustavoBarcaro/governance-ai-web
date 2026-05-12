@@ -208,9 +208,9 @@ export function TopicDetailsPage() {
       <DeleteConfirmDialog
         open={isDeleteTopicOpen}
         onOpenChange={setIsDeleteTopicOpen}
-        title="Delete topic?"
-        description={`This will remove "${topic.name}" and its study history. This action cannot be undone.`}
-        confirmLabel="Delete topic"
+        title="Delete domain?"
+        description={`This will remove "${topic.name}" and all its consultations. This action cannot be undone.`}
+        confirmLabel="Delete domain"
         isPending={deleteTopicMutation.isPending}
         onConfirm={() => deleteTopicMutation.mutate(topicId)}
       />
@@ -220,13 +220,13 @@ export function TopicDetailsPage() {
         onOpenChange={(open) => {
           if (!open) setSessionToDelete(null);
         }}
-        title="Delete session?"
+        title="Delete consultation?"
         description={
           sessionToDelete
             ? `This will remove "${sessionToDelete.title}" and all messages inside it. This action cannot be undone.`
             : ""
         }
-        confirmLabel="Delete session"
+        confirmLabel="Delete consultation"
         isPending={deleteSessionMutation.isPending}
         onConfirm={() => {
           if (sessionToDelete) {

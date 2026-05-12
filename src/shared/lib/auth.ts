@@ -1,6 +1,6 @@
 import type { AuthUser } from "@/shared/types/domain";
 
-const AUTH_STORAGE_KEY = "studyflow.auth";
+const AUTH_STORAGE_KEY = "governance-ai.auth";
 
 type StoredAuthState = {
   accessToken: string | null;

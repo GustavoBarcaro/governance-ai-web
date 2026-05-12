@@ -79,7 +79,7 @@ export function TopicsPage() {
       sessionsCount: relatedSessions.length,
       lastActivity: lastActivity
         ? formatRelativeSessionDate(lastActivity)
-        : "No study sessions yet",
+        : "No consultations yet",
     };
   });
 
@@ -124,24 +124,24 @@ export function TopicsPage() {
         <CardContent className="flex flex-col gap-4 pt-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl space-y-2">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              Topics
+              Governance domains
             </p>
             <h1 className="text-3xl font-extrabold sm:text-4xl">
-              Keep your study topics organized.
+              Manage your governance domains.
             </h1>
             <p className="text-muted-foreground">
-              Create topics for each subject and jump back into the sessions you want to review.
+              Create domains for each regulation or framework and jump back into the consultations you want to review.
             </p>
           </div>
           <div className="w-full max-w-md space-y-4 rounded-[1.5rem] border bg-background/90 p-4 shadow-sm backdrop-blur">
             <div className="space-y-2">
-              <Label htmlFor="topic-name">Topic name</Label>
+              <Label htmlFor="topic-name">Domain name</Label>
               <Input
                 id="topic-name"
                 ref={topicNameInputRef}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="Enter a topic name"
+                placeholder="e.g. LGPD, ISO 27001, GDPR, Cloud Governance"
               />
             </div>
             <TopicColorPicker color={color} onChange={setColor} />
@@ -158,10 +158,10 @@ export function TopicsPage() {
               }
             >
               <PlusCircle className="h-4 w-4" />
-              {createTopicMutation.isPending ? "Creating..." : "Create topic"}
+              {createTopicMutation.isPending ? "Creating..." : "Add domain"}
             </Button>
             {!isValidHexColor(color) ? (
-              <InlineError message="Enter a valid hex color before creating the topic." />
+              <InlineError message="Enter a valid hex color before adding the domain." />
             ) : null}
             <InlineError message={createTopicMutation.error?.message} />
           </div>
@@ -186,7 +186,7 @@ export function TopicsPage() {
           <Card className="border-dashed border-white/60 xl:col-span-3">
             <CardContent className="pt-6">
               <p className="text-sm text-muted-foreground">
-                No topics yet. Create your first topic to start studying.
+                No domains yet. Add your first domain to start consulting regulations and frameworks.
               </p>
             </CardContent>
           </Card>
@@ -198,13 +198,13 @@ export function TopicsPage() {
         onOpenChange={(open) => {
           if (!open) setTopicToDelete(null);
         }}
-        title="Delete topic?"
+        title="Delete domain?"
         description={
           topicToDelete
-            ? `This will permanently delete "${topicToDelete.name}" and its study history. This action cannot be undone.`
+            ? `This will permanently delete "${topicToDelete.name}" and all its consultations. This action cannot be undone.`
             : ""
         }
-        confirmLabel="Delete topic"
+        confirmLabel="Delete domain"
         isPending={deleteTopicMutation.isPending}
         onConfirm={() => {
           if (topicToDelete) {

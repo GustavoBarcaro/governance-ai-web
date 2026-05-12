@@ -22,9 +22,9 @@ export function SessionLibraryCard({
   return (
     <SurfaceCard className="border-white/60 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(254,243,199,0.7))]">
       <CardHeader>
-        <CardTitle>Session library</CardTitle>
+        <CardTitle>Consultation history</CardTitle>
         <CardDescription>
-          Open any session to continue studying, review past questions, or delete what you no longer need.
+          Open any consultation to continue, review past questions, or delete what you no longer need.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -36,7 +36,7 @@ export function SessionLibraryCard({
           />
         ) : (
           <p className="text-sm text-muted-foreground">
-            No sessions in this topic yet. Create one above to get started.
+            No consultations in this domain yet. Start one above to get started.
           </p>
         )}
       </CardContent>

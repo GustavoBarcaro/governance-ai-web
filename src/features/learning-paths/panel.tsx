@@ -60,9 +60,9 @@ export function LearningPathPanel({
     return (
       <SurfaceCard>
         <CardHeader>
-          <CardTitle>Learning path</CardTitle>
+          <CardTitle>Compliance roadmap</CardTitle>
           <CardDescription>
-            No learning path is available for this topic yet.
+            No compliance roadmap is available for this domain yet.
           </CardDescription>
         </CardHeader>
       </SurfaceCard>
@@ -93,9 +93,9 @@ export function LearningPathPanel({
 
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>Your progress</span>
+            <span>Compliance progress</span>
             <span>
-              {completedSteps}/{totalSteps} steps completed
+              {completedSteps}/{totalSteps} phases completed
             </span>
           </div>
           <Progress value={progress} />
@@ -137,14 +137,14 @@ export function LearningPathPanel({
                   <div className="min-w-0 space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                        Step {index + 1}
+                        Phase {index + 1}
                       </p>
                       {step.completed && (
                         <Badge
                           variant="secondary"
                           className="rounded-md border border-emerald-200 bg-emerald-100 px-2.5 py-0.5 text-emerald-700 hover:bg-emerald-100"
                         >
-                          Passed quiz
+                          Assessment passed
                         </Badge>
                       )}
                     </div>
@@ -168,7 +168,7 @@ export function LearningPathPanel({
                           Completed
                         </p>
                         <p className="text-xs text-emerald-700/80">
-                          Passed 10-question test
+                          Passed compliance assessment
                         </p>
                       </div>
                     </div>
@@ -188,8 +188,8 @@ export function LearningPathPanel({
                         ) : (
                           <>
                             {existingSessionId
-                              ? "Open session"
-                              : "Start session"}
+                              ? "Open consultation"
+                              : "Start consultation"}
                             <ArrowRight className="h-4 w-4" />
                           </>
                         )}
@@ -201,7 +201,7 @@ export function LearningPathPanel({
                           "justify-between sm:flex-1 lg:w-full",
                         )}
                       >
-                        Test yourself
+                        Take assessment
                       </Link>
                     </div>
                   )}
@@ -212,7 +212,7 @@ export function LearningPathPanel({
         })}
         <Separator />
         <p className="text-sm text-muted-foreground">
-          Complete each step by passing the 10-question quiz with at least 70%.
+          Complete each phase by passing the compliance assessment with at least 70%.
         </p>
       </CardContent>
     </SurfaceCard>

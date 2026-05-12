@@ -65,13 +65,13 @@ export function LearningPathQuizPage() {
       <PageHeader
         backLink={{
           to: `/topics/${quizResponse.learningPath.topicId}`,
-          label: "Back to topic",
+          label: "Back to domain",
         }}
         title={quizResponse.learningPathStep.title}
         titleClassName="text-3xl sm:text-4xl"
         badges={
           <>
-            <Badge variant="secondary">Learning path quiz</Badge>
+            <Badge variant="secondary">Compliance assessment</Badge>
             <Badge className="capitalize">
               {LEARNING_PATH_QUIZ_DIFFICULTY}
             </Badge>
@@ -86,7 +86,7 @@ export function LearningPathQuizPage() {
               {quizResponse.learningPathStep.description}
             </p>
             <p className="text-sm">
-              Score at least {PASS_THRESHOLD}% to complete this learning path step.
+              Score at least {PASS_THRESHOLD}% to complete this compliance phase.
             </p>
           </div>
         }
@@ -97,7 +97,7 @@ export function LearningPathQuizPage() {
           <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-sm font-medium text-emerald-700">
               <CheckCircle2 className="h-4 w-4" />
-              You passed. This step is complete.
+              You passed. This phase is complete.
             </div>
             <Button
               variant="outline"
@@ -105,7 +105,7 @@ export function LearningPathQuizPage() {
                 navigate(`/topics/${quizResponse.learningPath.topicId}`)
               }
             >
-              Back to learning path
+              Back to roadmap
             </Button>
           </div>
         </SurfaceCard>

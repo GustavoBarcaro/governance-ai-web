@@ -6,18 +6,18 @@ export function AuthShell({ children }: PropsWithChildren) {
       <section className="hidden bg-[linear-gradient(145deg,rgba(14,116,144,0.92),rgba(234,88,12,0.86))] p-10 text-white lg:flex lg:flex-col lg:justify-between">
         <div className="space-y-4">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
-            StudyFlow AI
+            Governance AI
           </p>
           <h1 className="max-w-md text-5xl font-extrabold leading-tight">
-            Study with clear goals, helpful guidance, and less confusion.
+            Navigate regulations and frameworks with AI-powered guidance.
           </h1>
           <p className="max-w-lg text-base text-white/80">
-            Organize what you are learning, ask questions, and review with AI in one place.
+            Organize governance domains, consult on compliance requirements, and build structured roadmaps for your organization.
           </p>
         </div>
         <div className="max-w-md rounded-[1.75rem] border border-white/20 bg-white/10 p-6 backdrop-blur">
           <p className="text-sm text-white/80">
-            Create topics, open study sessions, generate summaries, and test yourself when you are ready.
+            Create governance domains, open consultations, generate compliance summaries, and assess your knowledge with targeted quizzes.
           </p>
         </div>
       </section>

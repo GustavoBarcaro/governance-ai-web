@@ -51,12 +51,12 @@ export function QuizPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        backLink={{ to: `/sessions/${sessionId}`, label: "Back to session" }}
-        title="Session quiz"
+        backLink={{ to: `/sessions/${sessionId}`, label: "Back to consultation" }}
+        title="Compliance assessment"
         titleClassName="text-3xl sm:text-4xl"
         description={
           <p className="max-w-2xl">
-            This quiz is based on your current session
+            This assessment is based on your current consultation
             {session ? ` in ${session.topic.name}` : ""}.
           </p>
         }

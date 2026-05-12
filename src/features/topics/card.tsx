@@ -37,7 +37,7 @@ export function TopicCard({
           <div>
             <h3 className="text-xl font-bold">{topic.name}</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              {sessionsCount} study sessions
+              {sessionsCount} consultations
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export function TopicCard({
 
         <Button asChild className="w-full">
           <Link to={`/topics/${topic.id}`}>
-            Start studying
+            Open domain
             <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>

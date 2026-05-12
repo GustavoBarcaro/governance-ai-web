@@ -128,8 +128,8 @@ export function AuthForm({ mode }: AuthFormProps) {
         </CardTitle>
         <CardDescription>
           {isSignup
-            ? "Start organizing your study topics and learning with AI support."
-            : "Sign in to continue your study sessions and pick up where you left off."}
+            ? "Start organizing your governance domains and consulting regulations with AI support."
+            : "Sign in to continue your governance consultations and pick up where you left off."}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -146,7 +146,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
-              placeholder="student@example.com"
+              placeholder="user@company.com"
               {...register("email")}
             />
             <InlineError message={errors.email?.message} />

@@ -37,7 +37,7 @@ export function AppShell() {
       sessionsCount: relatedSessions.length,
       lastActivity: lastActivity
         ? formatRelativeSessionDate(lastActivity)
-        : "No study sessions yet",
+        : "No consultations yet",
     };
   });
 
@@ -47,9 +47,9 @@ export function AppShell() {
         <aside className="rounded-[2rem] border bg-white/85 p-4 shadow-soft backdrop-blur sm:p-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-              StudyFlow
+              Governance AI
             </p>
-            <h2 className="mt-2 text-xl font-extrabold">Your study topics</h2>
+            <h2 className="mt-2 text-xl font-extrabold">Governance domains</h2>
           </div>
 
           <nav className="mt-8 space-y-2">
@@ -65,7 +65,7 @@ export function AppShell() {
               }
             >
               <BookOpen className="h-4 w-4" />
-              All topics
+              All domains
             </NavLink>
           </nav>
 
@@ -86,7 +86,7 @@ export function AppShell() {
                   <div>
                     <p className="font-semibold">{topic.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {topic.sessionsCount} sessions
+                      {topic.sessionsCount} consultations
                     </p>
                   </div>
                   <Badge>{topic.sessionsCount}</Badge>

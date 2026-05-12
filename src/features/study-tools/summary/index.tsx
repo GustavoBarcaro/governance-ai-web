@@ -32,7 +32,7 @@ export function StudyToolsSummaryCard({
         ) : summary ? (
           <MarkdownContent content={summary} />
         ) : (
-          "Create a short summary when you want a quick review of this session."
+          "Create a compliance summary when you want a quick review of this consultation."
         )}
       </div>
       <InlineError message={errorMessage} />

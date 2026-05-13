@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { withAlpha } from "@/shared/lib/color";
+import { useT } from "@/shared/lib/i18n";
 import type { Topic } from "@/shared/types/domain";
 
 interface TopicCardProps {
@@ -20,6 +21,7 @@ export function TopicCard({
   onDelete,
   isDeleting = false,
 }: TopicCardProps) {
+  const t = useT();
   const color = topic.color ?? "#64748B";
 
   return (
@@ -64,7 +66,7 @@ export function TopicCard({
               {sessionsCount}
             </p>
             <p className="font-mono text-xs text-muted-foreground">
-              consultations
+              {t.topics.consultations}
             </p>
           </div>
           <div className="flex items-center gap-1.5 pb-0.5 text-xs text-muted-foreground/70">
@@ -89,7 +91,7 @@ export function TopicCard({
           className="w-full border-border/60 bg-muted/20 hover:bg-muted/50 hover:text-foreground"
         >
           <Link to={`/topics/${topic.id}`}>
-            Open Domain
+            {t.topics.openDomain}
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>

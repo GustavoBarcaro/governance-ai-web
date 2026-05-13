@@ -5,11 +5,16 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/store";
 import { authApi, api } from "@/shared/lib/api";
 import { Button } from "@/components/ui/button";
+import { LangToggle } from "@/shared/components/common/lang-toggle";
 import { withAlpha } from "@/shared/lib/color";
 import { formatRelativeSessionDate } from "@/shared/lib/format";
+import { useT, useLang, localeMap } from "@/shared/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function AppShell() {
+  const t = useT();
+  const lang = useLang();
+  const locale = localeMap[lang] ?? "en-US";
   const user = useAuthStore((state) => state.user);
   const clearSession = useAuthStore((state) => state.clearSession);
   const { data: topics } = useQuery({
@@ -35,8 +40,8 @@ export function AppShell() {
       ...topic,
       sessionsCount: relatedSessions.length,
       lastActivity: lastActivity
-        ? formatRelativeSessionDate(lastActivity)
-        : "No sessions yet",
+        ? formatRelativeSessionDate(lastActivity, locale)
+        : t.nav.noSessionsYet,
     };
   });
 
@@ -67,7 +72,7 @@ export function AppShell() {
             {/* Navigation */}
             <nav className="mt-8">
               <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground/50">
-                Navigation
+                {t.nav.navigation}
               </p>
               <NavLink
                 to="/topics"
@@ -81,7 +86,7 @@ export function AppShell() {
                 }
               >
                 <BookOpen className="h-4 w-4" />
-                All Domains
+                {t.nav.allDomains}
               </NavLink>
             </nav>
 
@@ -89,7 +94,7 @@ export function AppShell() {
             {topicsWithMeta.length > 0 && (
               <div className="mt-7">
                 <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground/50">
-                  Active Frameworks
+                  {t.nav.activeFrameworks}
                 </p>
                 <div className="space-y-0.5">
                   {topicsWithMeta.map((topic) => (
@@ -107,7 +112,7 @@ export function AppShell() {
                           {topic.name}
                         </p>
                         <p className="font-mono text-[11px] text-muted-foreground/70">
-                          {topic.sessionsCount} sessions
+                          {topic.sessionsCount} {t.nav.sessions}
                         </p>
                       </div>
                       <div
@@ -123,8 +128,13 @@ export function AppShell() {
             {/* Spacer */}
             <div className="flex-1" />
 
+            {/* Language toggle */}
+            <div className="mt-4 flex justify-center">
+              <LangToggle />
+            </div>
+
             {/* User card */}
-            <div className="mt-6 rounded-xl border border-border/50 bg-muted/30 p-4">
+            <div className="mt-3 rounded-xl border border-border/50 bg-muted/30 p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/12 font-mono text-sm font-bold text-primary ring-1 ring-primary/20">
                   {userInitial}
@@ -151,7 +161,7 @@ export function AppShell() {
                 }}
               >
                 <LogOut className="h-3.5 w-3.5" />
-                Sign out
+                {t.nav.signOut}
               </Button>
             </div>
           </div>

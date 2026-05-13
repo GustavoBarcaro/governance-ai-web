@@ -1,7 +1,11 @@
 import type { PropsWithChildren } from "react";
 import { Shield } from "lucide-react";
 
+import { LangToggle } from "@/shared/components/common/lang-toggle";
+import { useT } from "@/shared/lib/i18n";
+
 export function AuthShell({ children }: PropsWithChildren) {
+  const t = useT();
   return (
     <div className="grid min-h-screen lg:grid-cols-[1.15fr_0.85fr]">
       {/* Left panel — Command Center Hero */}
@@ -28,13 +32,14 @@ export function AuthShell({ children }: PropsWithChildren) {
         </div>
 
         {/* Brand bar */}
-        <div className="relative flex items-center gap-2.5">
+        <div className="relative flex items-center justify-between gap-2.5">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-primary/30">
             <Shield className="h-4 w-4 text-primary" />
           </div>
           <p className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
             Governance AI
           </p>
+          <LangToggle />
         </div>
 
         {/* Hero content */}
@@ -43,33 +48,27 @@ export function AuthShell({ children }: PropsWithChildren) {
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3 py-1">
               <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
               <span className="font-mono text-xs text-primary/80">
-                AI Compliance Advisory Active
+                {t.authShell.badge}
               </span>
             </div>
 
             <h1 className="font-serif text-6xl font-semibold leading-[1.05] tracking-tight text-foreground">
-              Navigate
+              {t.authShell.heroLine1}
               <br />
-              Compliance.
+              {t.authShell.heroLine2}
               <br />
-              <span className="text-primary">Command</span>
+              <span className="text-primary">{t.authShell.heroLine3}</span>
               <br />
-              Governance.
+              {t.authShell.heroLine4}
             </h1>
 
             <p className="max-w-[22rem] text-base leading-relaxed text-muted-foreground">
-              AI-powered regulatory intelligence for modern organizations.
-              Organize frameworks, consult AI, and build compliance roadmaps.
+              {t.authShell.tagline}
             </p>
           </div>
 
           <div className="space-y-3">
-            {[
-              "Organize governance domains and frameworks",
-              "AI-powered compliance consultations",
-              "Structured learning path generation",
-              "Knowledge assessment and validation",
-            ].map((feature) => (
+            {t.authShell.features.map((feature) => (
               <div key={feature} className="flex items-center gap-3">
                 <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 <span className="text-sm text-foreground/70">{feature}</span>
@@ -81,9 +80,9 @@ export function AuthShell({ children }: PropsWithChildren) {
         {/* Stats row */}
         <div className="relative grid grid-cols-3 gap-3">
           {[
-            { value: "50+", label: "Frameworks" },
-            { value: "AI", label: "Powered" },
-            { value: "24/7", label: "Advisory" },
+            { value: "50+", label: t.authShell.stats.frameworks },
+            { value: "AI", label: t.authShell.stats.powered },
+            { value: "24/7", label: t.authShell.stats.advisory },
           ].map(({ value, label }) => (
             <div
               key={label}
@@ -101,7 +100,10 @@ export function AuthShell({ children }: PropsWithChildren) {
       </section>
 
       {/* Right panel — Auth form */}
-      <section className="flex items-center justify-center bg-background p-6 lg:p-10">
+      <section className="relative flex items-center justify-center bg-background p-6 lg:p-10">
+        <div className="absolute right-6 top-6 lg:hidden">
+          <LangToggle />
+        </div>
         {children}
       </section>
     </div>

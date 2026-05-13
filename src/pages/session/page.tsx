@@ -9,6 +9,7 @@ import { SessionHero } from "@/features/sessions/hero";
 import { StudyToolsPanel } from "@/features/study-tools/panel";
 import { PageLoading } from "@/shared/components/common/page/loading";
 import { api } from "@/shared/lib/api";
+import { useT } from "@/shared/lib/i18n";
 import type {
   CreateMessageResponse,
   Message,
@@ -16,6 +17,7 @@ import type {
 } from "@/shared/types/domain";
 
 export function SessionPage() {
+  const t = useT();
   const { sessionId = "" } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -183,9 +185,9 @@ export function SessionPage() {
       <DeleteConfirmDialog
         open={isDeleteOpen}
         onOpenChange={setIsDeleteOpen}
-        title="Delete consultation?"
-        description={`This will remove "${session.title}" and all messages inside it. This action cannot be undone.`}
-        confirmLabel="Delete consultation"
+        title={t.topicDetails.deleteConsultationTitle}
+        description={t.topicDetails.deleteSessionDesc(session.title)}
+        confirmLabel={t.topicDetails.deleteConsultationConfirm}
         isPending={deleteSessionMutation.isPending}
         onConfirm={() => deleteSessionMutation.mutate(sessionId)}
       />

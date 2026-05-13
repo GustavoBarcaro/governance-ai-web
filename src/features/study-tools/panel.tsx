@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { InlineError } from "@/shared/components/common/inline-error";
 import { MarkdownContent } from "@/shared/components/common/markdown/content";
+import { useT } from "@/shared/lib/i18n";
 import type { QuizDifficulty, StudyLevel } from "@/shared/types/domain";
 import { cn } from "@/lib/utils";
 
@@ -22,12 +23,6 @@ interface StudyToolsPanelProps {
   onQuestionsChange: (questions: number) => void;
 }
 
-const TABS: { id: TabId; label: string }[] = [
-  { id: "summary", label: "Summary" },
-  { id: "clarify", label: "Clarify" },
-  { id: "quiz", label: "Quiz" },
-];
-
 export function StudyToolsPanel({
   sessionId,
   quizDifficulty,
@@ -35,6 +30,12 @@ export function StudyToolsPanel({
   onQuizDifficultyChange,
   onQuestionsChange,
 }: StudyToolsPanelProps) {
+  const t = useT();
+  const TABS: { id: TabId; label: string }[] = [
+    { id: "summary", label: t.studyTools.tabs.summary },
+    { id: "clarify", label: t.studyTools.tabs.clarify },
+    { id: "quiz", label: t.studyTools.tabs.quiz },
+  ];
   const [activeTab, setActiveTab] = useState<TabId>("summary");
   const [focus, setFocus] = useState("");
   const [level, setLevel] = useState<StudyLevel>("beginner");
@@ -82,7 +83,7 @@ export function StudyToolsPanel({
               onClick={() => summaryMutation.mutate()}
             >
               <ListChecks className="h-3.5 w-3.5" />
-              {summaryMutation.isPending ? "Summarizing..." : "Generate Summary"}
+              {summaryMutation.isPending ? t.studyTools.summary.generating : t.studyTools.summary.generate}
             </Button>
 
             {summaryMutation.isPending && (
@@ -112,14 +113,14 @@ export function StudyToolsPanel({
                   }}
                 >
                   <Copy className="h-3.5 w-3.5" />
-                  Copy summary
+                  {t.studyTools.summary.copy}
                 </Button>
               </>
             )}
 
             {!summaryMutation.data && !summaryMutation.isPending && (
               <p className="text-xs text-muted-foreground/60">
-                Generate a concise summary of this compliance consultation.
+                {t.studyTools.summary.hint}
               </p>
             )}
 
@@ -132,19 +133,19 @@ export function StudyToolsPanel({
           <div className="space-y-3">
             <div className="space-y-1.5">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/60">
-                Focus area
+                {t.studyTools.clarify.focusLabel}
               </p>
               <Input
                 value={focus}
                 onChange={(e) => setFocus(e.target.value)}
-                placeholder="Which regulation needs clarification?"
+                placeholder={t.studyTools.clarify.focusPlaceholder}
                 className="border-border/60 bg-muted/30"
               />
             </div>
 
             <div className="space-y-1.5">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/60">
-                Knowledge level
+                {t.studyTools.clarify.levelLabel}
               </p>
               <div className="grid grid-cols-2 gap-2">
                 <Button
@@ -152,14 +153,14 @@ export function StudyToolsPanel({
                   variant={level === "beginner" ? "default" : "outline"}
                   onClick={() => setLevel("beginner")}
                 >
-                  Foundational
+                  {t.studyTools.clarify.foundational}
                 </Button>
                 <Button
                   size="sm"
                   variant={level === "intermediate" ? "default" : "outline"}
                   onClick={() => setLevel("intermediate")}
                 >
-                  Advanced
+                  {t.studyTools.clarify.advanced}
                 </Button>
               </div>
             </div>
@@ -170,7 +171,7 @@ export function StudyToolsPanel({
               onClick={() => explainMutation.mutate()}
             >
               <HelpCircle className="h-3.5 w-3.5" />
-              {explainMutation.isPending ? "Clarifying..." : "Clarify Regulation"}
+              {explainMutation.isPending ? t.studyTools.clarify.clarifying : t.studyTools.clarify.clarify}
             </Button>
 
             {explainMutation.isPending && (
@@ -197,7 +198,7 @@ export function StudyToolsPanel({
           <div className="space-y-4">
             <div className="space-y-1.5">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/60">
-                Difficulty
+                {t.studyTools.quiz.difficultyLabel}
               </p>
               <div className="grid grid-cols-3 gap-1.5">
                 {(["easy", "medium", "hard"] as QuizDifficulty[]).map((d) => (
@@ -208,7 +209,7 @@ export function StudyToolsPanel({
                     onClick={() => onQuizDifficultyChange(d)}
                     className="capitalize"
                   >
-                    {d}
+                    {t.studyTools.quiz[d]}
                   </Button>
                 ))}
               </div>
@@ -216,7 +217,7 @@ export function StudyToolsPanel({
 
             <div className="space-y-1.5">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/60">
-                Questions
+                {t.studyTools.quiz.questionsLabel}
               </p>
               <Input
                 type="number"
@@ -235,12 +236,12 @@ export function StudyToolsPanel({
                 to={`/quizzes/${sessionId}?difficulty=${quizDifficulty}&questions=${questions}`}
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                Start Assessment
+                {t.studyTools.quiz.start}
               </Link>
             </Button>
 
             <p className="text-xs text-muted-foreground/55 leading-5">
-              The assessment is generated from the content of this consultation.
+              {t.studyTools.quiz.hint}
             </p>
           </div>
         )}

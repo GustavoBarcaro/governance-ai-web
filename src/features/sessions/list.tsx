@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { formatRelativeSessionDate } from "@/shared/lib/format";
+import { useT, useLang, localeMap } from "@/shared/lib/i18n";
 import type { StudySession } from "@/shared/types/domain";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,9 @@ export function SessionList({
   onDelete,
   deletingSessionId,
 }: SessionListProps) {
+  const t = useT();
+  const lang = useLang();
+  const locale = localeMap[lang] ?? "en-US";
   return (
     <div className="divide-y divide-border/40">
       {sessions.map((session) => (
@@ -38,7 +42,7 @@ export function SessionList({
             <div className="mt-0.5 flex items-center gap-1.5 text-muted-foreground/60">
               <Clock3 className="h-3 w-3 shrink-0" />
               <span className="font-mono text-[11px]">
-                {formatRelativeSessionDate(session.updatedAt)}
+                {formatRelativeSessionDate(session.updatedAt, locale)}
               </span>
             </div>
           </div>
@@ -47,7 +51,7 @@ export function SessionList({
           <div className="flex shrink-0 items-center gap-1">
             <Button asChild variant="ghost" size="sm" className="h-8 gap-1.5 text-xs">
               <Link to={`/sessions/${session.id}`}>
-                Open
+                {t.sessionLibrary.open}
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
             </Button>

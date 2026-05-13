@@ -6,8 +6,10 @@ import { InlineError } from "@/shared/components/common/inline-error";
 import { PageLoading } from "@/shared/components/common/page/loading";
 import { PageHeader } from "@/shared/components/common/page/header";
 import { api } from "@/shared/lib/api";
+import { useT } from "@/shared/lib/i18n";
 
 export function QuizPage() {
+  const t = useT();
   const { sessionId = "" } = useParams();
   const [searchParams] = useSearchParams();
   const difficulty = (searchParams.get("difficulty") ?? "medium") as
@@ -45,18 +47,18 @@ export function QuizPage() {
   }
 
   if (!quiz) {
-    return <p>Quiz not found.</p>;
+    return <p>{t.quiz.notFound}</p>;
   }
 
   return (
     <div className="space-y-6">
       <PageHeader
-        backLink={{ to: `/sessions/${sessionId}`, label: "Back to consultation" }}
-        title="Compliance assessment"
+        backLink={{ to: `/sessions/${sessionId}`, label: t.quiz.backLabel }}
+        title={t.quiz.title}
         titleClassName="text-3xl sm:text-4xl"
         description={
           <p className="max-w-2xl">
-            This assessment is based on your current consultation
+            {t.quiz.description}
             {session ? ` in ${session.topic.name}` : ""}.
           </p>
         }

@@ -7,7 +7,6 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -19,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { InlineError } from "@/shared/components/common/inline-error";
 import { SurfaceCard } from "@/shared/components/common/surface/card";
 import { authApi } from "@/shared/lib/api";
+import { useT } from "@/shared/lib/i18n";
 
 const optionalNameSchema = z.preprocess((value) => {
   if (typeof value !== "string") return value;
@@ -26,21 +26,21 @@ const optionalNameSchema = z.preprocess((value) => {
   return trimmed === "" ? undefined : trimmed;
 }, z.string().min(2).optional());
 
-const signupPasswordRules = [
+const signupPasswordRulesConfig = [
   {
-    label: "Minimum 8 characters",
+    key: "minLength" as const,
     test: (value: string) => value.length >= 8,
   },
   {
-    label: "At least 1 special character",
+    key: "specialChar" as const,
     test: (value: string) => /[^A-Za-z0-9]/.test(value),
   },
   {
-    label: "At least 1 number",
+    key: "number" as const,
     test: (value: string) => /\d/.test(value),
   },
   {
-    label: "At least 1 uppercase letter",
+    key: "uppercase" as const,
     test: (value: string) => /[A-Z]/.test(value),
   },
 ];
@@ -59,7 +59,7 @@ const signupSchema = z
       .string()
       .min(1, "Password is required")
       .refine(
-        (value) => signupPasswordRules.every((rule) => rule.test(value)),
+        (value) => signupPasswordRulesConfig.every((rule) => rule.test(value)),
         {
           message:
             "Password must have at least 8 characters, 1 special character, 1 number, and 1 uppercase letter.",
@@ -80,6 +80,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ mode }: AuthFormProps) {
+  const t = useT();
   const navigate = useNavigate();
   const isSignup = mode === "signup";
   const {
@@ -120,43 +121,49 @@ export function AuthForm({ mode }: AuthFormProps) {
     navigate("/topics");
   };
 
+  const mode_ = isSignup ? t.auth.signup : t.auth.login;
+
   return (
     <SurfaceCard className="w-full max-w-md">
       <CardHeader className="pb-5">
         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground/50">
-          {isSignup ? "Create account" : "Sign in"}
+          {mode_.overline}
         </p>
         <CardTitle className="font-serif text-3xl font-semibold tracking-tight">
-          {isSignup ? "Get started." : "Welcome back."}
+          {mode_.title}
         </CardTitle>
         <CardDescription className="mt-1">
-          {isSignup
-            ? "Start organizing your governance domains and consulting regulations with AI."
-            : "Continue your governance consultations and pick up where you left off."}
+          {mode_.description}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {isSignup && (
             <div className="space-y-1.5">
-              <Label htmlFor="name" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Name</Label>
-              <Input placeholder="Your name" {...register("name")} />
+              <Label htmlFor="name" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">
+                {t.auth.fields.name}
+              </Label>
+              <Input placeholder={t.auth.fields.namePlaceholder} {...register("name")} />
               <InlineError message={errors.name?.message} />
             </div>
           )}
 
           <div className="space-y-1.5">
-            <Label htmlFor="email" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Email</Label>
+            <Label htmlFor="email" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">
+              {t.auth.fields.email}
+            </Label>
             <Input
               id="email"
-              placeholder="user@company.com"
+              placeholder={t.auth.fields.emailPlaceholder}
               {...register("email")}
             />
             <InlineError message={errors.email?.message} />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">Password</Label>
+            <Label htmlFor="password" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">
+              {t.auth.fields.password}
+            </Label>
             <Input
               id="password"
               type="password"
@@ -166,13 +173,13 @@ export function AuthForm({ mode }: AuthFormProps) {
             <InlineError message={errors.password?.message} />
             {isSignup && (
               <div className="space-y-1 pt-1">
-                {signupPasswordRules.map((rule) => {
+                {signupPasswordRulesConfig.map((rule) => {
                   const isValid = rule.test(password);
                   const Icon = isValid ? Check : X;
 
                   return (
                     <div
-                      key={rule.label}
+                      key={rule.key}
                       className="flex items-center gap-2 text-xs"
                     >
                       <Icon
@@ -189,7 +196,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                             : "text-muted-foreground/50"
                         }
                       >
-                        {rule.label}
+                        {t.auth.passwordRules[rule.key]}
                       </span>
                     </div>
                   );
@@ -201,7 +208,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           {isSignup && (
             <div className="space-y-1.5">
               <Label htmlFor="confirmPassword" className="font-mono text-xs font-bold uppercase tracking-wide text-muted-foreground/70">
-                Confirm password
+                {t.auth.fields.confirmPassword}
               </Label>
               <Input
                 id="confirmPassword"
@@ -212,7 +219,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               <InlineError
                 message={
                   passwordMismatch
-                    ? "Passwords do not match"
+                    ? t.auth.passwordMismatch
                     : errors.confirmPassword?.message
                 }
               />
@@ -225,7 +232,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             type="submit"
             disabled={isSubmitting}
           >
-            {isSignup ? "Create account" : "Sign in"}
+            {isSignup ? t.auth.submit.signup : t.auth.submit.login}
             <ArrowRight className="h-4 w-4" />
           </Button>
           <InlineError message={authMutation.error?.message} />
@@ -234,12 +241,12 @@ export function AuthForm({ mode }: AuthFormProps) {
         <Separator className="my-6 opacity-40" />
 
         <p className="text-sm text-muted-foreground/60">
-          {isSignup ? "Already have an account?" : "Need an account?"}{" "}
+          {mode_.switchText}{" "}
           <Link
             className="font-semibold text-primary hover:text-primary/80"
             to={isSignup ? "/login" : "/signup"}
           >
-            {isSignup ? "Sign in" : "Create one"}
+            {mode_.switchLink}
           </Link>
         </p>
       </CardContent>

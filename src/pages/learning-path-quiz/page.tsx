@@ -10,12 +10,14 @@ import { SurfaceCard } from "@/shared/components/common/surface/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { api } from "@/shared/lib/api";
+import { useT } from "@/shared/lib/i18n";
 
 const LEARNING_PATH_QUIZ_DIFFICULTY = "hard" as const;
 const LEARNING_PATH_QUIZ_QUESTIONS = 10;
 const PASS_THRESHOLD = 70;
 
 export function LearningPathQuizPage() {
+  const t = useT();
   const { stepId = "" } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -57,7 +59,7 @@ export function LearningPathQuizPage() {
   }
 
   if (!quizResponse) {
-    return <p>Quiz not found.</p>;
+    return <p>{t.learningPathQuiz.notFound}</p>;
   }
 
   return (
@@ -65,18 +67,18 @@ export function LearningPathQuizPage() {
       <PageHeader
         backLink={{
           to: `/topics/${quizResponse.learningPath.topicId}`,
-          label: "Back to domain",
+          label: t.backLinks.backToDomain,
         }}
         title={quizResponse.learningPathStep.title}
         titleClassName="text-3xl sm:text-4xl"
         badges={
           <>
-            <Badge variant="secondary">Compliance assessment</Badge>
+            <Badge variant="secondary">{t.learningPathQuiz.complianceAssessment}</Badge>
             <Badge className="capitalize">
-              {LEARNING_PATH_QUIZ_DIFFICULTY}
+              {t.studyTools.quiz[LEARNING_PATH_QUIZ_DIFFICULTY]}
             </Badge>
             <Badge variant="outline">
-              {LEARNING_PATH_QUIZ_QUESTIONS} questions
+              {LEARNING_PATH_QUIZ_QUESTIONS} {t.learningPathQuiz.questions}
             </Badge>
           </>
         }
@@ -86,18 +88,18 @@ export function LearningPathQuizPage() {
               {quizResponse.learningPathStep.description}
             </p>
             <p className="text-sm">
-              Score at least {PASS_THRESHOLD}% to complete this compliance phase.
+              {t.learningPathQuiz.passThreshold(PASS_THRESHOLD)}
             </p>
           </div>
         }
       />
 
       {completeStepMutation.isSuccess ? (
-        <SurfaceCard className="border-emerald-200 bg-emerald-50 shadow-sm">
+        <SurfaceCard className="border-emerald-800/40 bg-emerald-950/30">
           <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-sm font-medium text-emerald-700">
+            <div className="flex items-center gap-2 text-sm font-medium text-emerald-400">
               <CheckCircle2 className="h-4 w-4" />
-              You passed. This phase is complete.
+              {t.learningPathQuiz.passed}
             </div>
             <Button
               variant="outline"
@@ -105,7 +107,7 @@ export function LearningPathQuizPage() {
                 navigate(`/topics/${quizResponse.learningPath.topicId}`)
               }
             >
-              Back to roadmap
+              {t.learningPathQuiz.backToRoadmap}
             </Button>
           </div>
         </SurfaceCard>

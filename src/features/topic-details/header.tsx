@@ -2,6 +2,7 @@ import { Trash2 } from "lucide-react";
 
 import { BackLink } from "@/shared/components/common/back-link";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/shared/lib/i18n";
 
 interface TopicDetailsHeaderProps {
   topicName: string;
@@ -12,20 +13,20 @@ export function TopicDetailsHeader({
   topicName,
   onDelete,
 }: TopicDetailsHeaderProps) {
+  const t = useT();
   return (
     <div className="flex-1 space-y-3">
-      <BackLink to="/topics" label="Back to domains" />
+      <BackLink to="/topics" label={t.backLinks.backToDomains} />
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground/50">
-            Governance Domain
+            {t.topicDetails.overline}
           </p>
           <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {topicName}
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Open consultations, review compliance progress, and build a
-            governance roadmap for this domain.
+            {t.topicDetails.subtitle}
           </p>
         </div>
         <Button
@@ -35,7 +36,7 @@ export function TopicDetailsHeader({
           onClick={onDelete}
         >
           <Trash2 className="h-3.5 w-3.5" />
-          Delete
+          {t.topics.deleteDomainConfirm}
         </Button>
       </div>
     </div>

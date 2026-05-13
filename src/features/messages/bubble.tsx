@@ -1,6 +1,7 @@
 import { MarkdownContent } from "@/shared/components/common/markdown/content";
 import type { Message } from "@/shared/types/domain";
 import { formatMessageTime } from "@/shared/lib/format";
+import { useT, useLang, localeMap } from "@/shared/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface MessageBubbleProps {
@@ -8,6 +9,9 @@ interface MessageBubbleProps {
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
+  const t = useT();
+  const lang = useLang();
+  const locale = localeMap[lang] ?? "en-US";
   const isAssistant = message.role === "assistant";
   const isPending = Boolean(message.isPending);
 
@@ -30,7 +34,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
                 <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:300ms]" />
               </span>
               <span className="font-mono text-xs text-muted-foreground">
-                Processing...
+                {t.messages.processing}
               </span>
             </div>
           ) : (
@@ -54,7 +58,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
               : "text-primary-foreground/60",
           )}
         >
-          {isPending ? "Just now" : formatMessageTime(message.createdAt)}
+          {isPending ? t.messages.justNow : formatMessageTime(message.createdAt, locale)}
         </p>
       </div>
     </div>

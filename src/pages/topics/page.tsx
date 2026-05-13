@@ -16,12 +16,16 @@ import {
   withAlpha,
 } from "@/shared/lib/color";
 import { formatRelativeSessionDate } from "@/shared/lib/format";
+import { useT, useLang, localeMap } from "@/shared/lib/i18n";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import type { Topic } from "@/shared/types/domain";
 
 export function TopicsPage() {
+  const t = useT();
+  const lang = useLang();
+  const locale = localeMap[lang] ?? "en-US";
   const [searchParams, setSearchParams] = useSearchParams();
   const [name, setName] = useState("");
   const [color, setColor] = useState("#0EA5E9");
@@ -80,8 +84,8 @@ export function TopicsPage() {
       topic,
       sessionsCount: relatedSessions.length,
       lastActivity: lastActivity
-        ? formatRelativeSessionDate(lastActivity)
-        : "No consultations yet",
+        ? formatRelativeSessionDate(lastActivity, locale)
+        : t.topics.noConsultationsYet,
     };
   });
 
@@ -125,17 +129,17 @@ export function TopicsPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground/50">
-            Governance Domains
+            {t.topics.overline}
           </p>
           <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-foreground">
             {topicsWithMeta.length > 0
-              ? "Your domains."
-              : "Get started."}
+              ? t.topics.titleHasDomains
+              : t.topics.titleEmpty}
           </h1>
           <p className="mt-2 max-w-lg text-sm text-muted-foreground">
             {topicsWithMeta.length > 0
-              ? "Create domains for each regulation or framework and jump back into your consultations."
-              : "Create your first governance domain to start consulting with AI on regulations and compliance frameworks."}
+              ? t.topics.descriptionHasDomains
+              : t.topics.descriptionEmpty}
           </p>
         </div>
         <Button
@@ -146,12 +150,12 @@ export function TopicsPage() {
           {isFormOpen ? (
             <>
               <X className="h-4 w-4" />
-              Cancel
+              {t.topics.cancel}
             </>
           ) : (
             <>
               <PlusCircle className="h-4 w-4" />
-              Add Domain
+              {t.topics.addDomain}
             </>
           )}
         </Button>
@@ -166,21 +170,21 @@ export function TopicsPage() {
           }}
         >
           <h2 className="font-serif text-xl font-semibold text-foreground">
-            New governance domain
+            {t.topics.newDomain}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Give it a clear name and a color to identify it at a glance.
+            {t.topics.newDomainDesc}
           </p>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2 sm:items-end">
             <div className="space-y-2">
-              <Label htmlFor="topic-name">Domain name</Label>
+              <Label htmlFor="topic-name">{t.topics.domainNameLabel}</Label>
               <Input
                 id="topic-name"
                 ref={topicNameInputRef}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. LGPD, ISO 27001, GDPR"
+                placeholder={t.topics.domainNamePlaceholder}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && canCreate) {
                     createTopicMutation.mutate({
@@ -207,7 +211,7 @@ export function TopicsPage() {
               }
             >
               <PlusCircle className="h-4 w-4" />
-              {createTopicMutation.isPending ? "Creating..." : "Create domain"}
+              {createTopicMutation.isPending ? t.topics.creating : t.topics.createDomain}
             </Button>
             <Button
               variant="ghost"
@@ -217,14 +221,14 @@ export function TopicsPage() {
                 setColor("#0EA5E9");
               }}
             >
-              Cancel
+              {t.topics.cancel}
             </Button>
           </div>
 
           {!isValidHexColor(color) && (
             <InlineError
               className="mt-2"
-              message="Enter a valid hex color before adding the domain."
+              message={t.topics.colorError}
             />
           )}
           <InlineError
@@ -256,18 +260,17 @@ export function TopicsPage() {
             <div className="h-2 w-2 rounded-full bg-primary" />
           </div>
           <p className="mt-4 font-serif text-lg font-medium text-foreground">
-            No domains yet
+            {t.topics.noDomainsTitle}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Click &ldquo;Add Domain&rdquo; to create your first governance
-            framework.
+            {t.topics.noDomainsDesc}
           </p>
           <Button
             className="mt-5"
             onClick={() => setIsFormOpen(true)}
           >
             <PlusCircle className="h-4 w-4" />
-            Add your first domain
+            {t.topics.addFirstDomain}
           </Button>
         </div>
       ) : null}
@@ -277,13 +280,13 @@ export function TopicsPage() {
         onOpenChange={(open) => {
           if (!open) setTopicToDelete(null);
         }}
-        title="Delete domain?"
+        title={t.topics.deleteDomainTitle}
         description={
           topicToDelete
-            ? `This will permanently delete "${topicToDelete.name}" and all its consultations. This action cannot be undone.`
+            ? t.topicDetails.deleteTopicDesc(topicToDelete.name)
             : ""
         }
-        confirmLabel="Delete domain"
+        confirmLabel={t.topics.deleteDomainConfirm}
         isPending={deleteTopicMutation.isPending}
         onConfirm={() => {
           if (topicToDelete) {

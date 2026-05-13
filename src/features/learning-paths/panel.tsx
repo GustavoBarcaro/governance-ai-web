@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SurfaceCard } from "@/shared/components/common/surface/card";
+import { useT } from "@/shared/lib/i18n";
 import type {
   LearningPath,
   LearningPathStep,
@@ -39,6 +40,7 @@ export function LearningPathPanel({
   getTestQuizHref,
   onCreateSession,
 }: LearningPathPanelProps) {
+  const t = useT();
   if (isLoading) {
     return (
       <SurfaceCard>
@@ -61,10 +63,10 @@ export function LearningPathPanel({
       <SurfaceCard>
         <CardHeader>
           <CardTitle className="font-serif text-xl font-semibold">
-            Compliance roadmap
+            {t.learningPath.noRoadmapTitle}
           </CardTitle>
           <CardDescription>
-            No compliance roadmap has been generated for this domain yet.
+            {t.learningPath.noRoadmap}
           </CardDescription>
         </CardHeader>
       </SurfaceCard>
@@ -82,7 +84,7 @@ export function LearningPathPanel({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-1">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground/50">
-              Compliance Roadmap
+              {t.learningPath.overline}
             </p>
             <CardTitle className="font-serif text-2xl font-semibold">
               {topic.name}
@@ -96,9 +98,9 @@ export function LearningPathPanel({
 
         <div className="space-y-2">
           <div className="flex items-center justify-between font-mono text-xs text-muted-foreground/60">
-            <span>Progress</span>
+            <span>{t.learningPath.progress}</span>
             <span>
-              {completedSteps}/{totalSteps} phases
+              {completedSteps}/{totalSteps} {t.learningPath.phases}
             </span>
           </div>
           <Progress value={progress} className="h-1.5" />
@@ -141,11 +143,11 @@ export function LearningPathPanel({
                   <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/50">
-                        Phase {index + 1}
+                        {t.learningPath.phase} {index + 1}
                       </p>
                       {step.completed && (
                         <Badge className="rounded border border-emerald-800/40 bg-emerald-950/40 px-2 py-0 text-[10px] text-emerald-400 hover:bg-emerald-950/50">
-                          Passed
+                          {t.learningPath.passed}
                         </Badge>
                       )}
                     </div>
@@ -167,10 +169,10 @@ export function LearningPathPanel({
                       </div>
                       <div>
                         <p className="text-xs font-semibold text-emerald-300">
-                          Completed
+                          {t.learningPath.completed}
                         </p>
                         <p className="text-[11px] text-emerald-400/60">
-                          Assessment passed
+                          {t.learningPath.assessmentPassed}
                         </p>
                       </div>
                     </div>
@@ -186,13 +188,13 @@ export function LearningPathPanel({
                         {creatingSessionStepId === step.id ? (
                           <>
                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                            Creating...
+                            {t.learningPath.creating}
                           </>
                         ) : (
                           <>
                             {existingSessionId
-                              ? "Open consultation"
-                              : "Start consultation"}
+                              ? t.learningPath.openConsultation
+                              : t.learningPath.startConsultation}
                             <ArrowRight className="h-3.5 w-3.5" />
                           </>
                         )}
@@ -204,7 +206,7 @@ export function LearningPathPanel({
                           "w-full justify-between sm:w-auto",
                         )}
                       >
-                        Take assessment
+                        {t.learningPath.takeAssessment}
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
@@ -217,8 +219,7 @@ export function LearningPathPanel({
 
         <Separator className="opacity-30" />
         <p className="text-xs text-muted-foreground/50">
-          Complete each phase by passing the compliance assessment with at least
-          70%.
+          {t.learningPath.completionHint}
         </p>
       </CardContent>
     </SurfaceCard>

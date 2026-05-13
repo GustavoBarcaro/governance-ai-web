@@ -11,9 +11,11 @@ import { DeleteConfirmDialog } from "@/shared/components/common/delete-confirm/d
 import { InlineError } from "@/shared/components/common/inline-error";
 import { PageLoading } from "@/shared/components/common/page/loading";
 import { api } from "@/shared/lib/api";
+import { useT } from "@/shared/lib/i18n";
 import type { LearningPathStep, StudySession } from "@/shared/types/domain";
 
 export function TopicDetailsPage() {
+  const t = useT();
   const { topicId = "" } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -134,7 +136,7 @@ export function TopicDetailsPage() {
   }
 
   if (!topic) {
-    return <p>Topic not found.</p>;
+    return <p>{t.topicDetails.notFound}</p>;
   }
 
   return (
@@ -208,9 +210,9 @@ export function TopicDetailsPage() {
       <DeleteConfirmDialog
         open={isDeleteTopicOpen}
         onOpenChange={setIsDeleteTopicOpen}
-        title="Delete domain?"
-        description={`This will remove "${topic.name}" and all its consultations. This action cannot be undone.`}
-        confirmLabel="Delete domain"
+        title={t.topicDetails.deleteDomainTitle}
+        description={t.topicDetails.deleteTopicDesc(topic.name)}
+        confirmLabel={t.topicDetails.deleteDomainConfirm}
         isPending={deleteTopicMutation.isPending}
         onConfirm={() => deleteTopicMutation.mutate(topicId)}
       />
@@ -220,13 +222,13 @@ export function TopicDetailsPage() {
         onOpenChange={(open) => {
           if (!open) setSessionToDelete(null);
         }}
-        title="Delete consultation?"
+        title={t.topicDetails.deleteConsultationTitle}
         description={
           sessionToDelete
-            ? `This will remove "${sessionToDelete.title}" and all messages inside it. This action cannot be undone.`
+            ? t.topicDetails.deleteSessionDesc(sessionToDelete.title)
             : ""
         }
-        confirmLabel="Delete consultation"
+        confirmLabel={t.topicDetails.deleteConsultationConfirm}
         isPending={deleteSessionMutation.isPending}
         onConfirm={() => {
           if (sessionToDelete) {
